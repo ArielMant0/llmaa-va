@@ -1,0 +1,1127 @@
+[
+    {
+        "id": 1035,
+        "name": "ai: commandable",
+        "description": "the game has AI companions that can be commanded by the player (fully or partially)"
+    },
+    {
+        "id": 1036,
+        "name": "ai: uncommandable",
+        "description": "the game has AI companions that CANNOT be commanded by the player\n\nincludes all types of companions as long as it is not only an escort mission and the companion follows the player"
+    },
+    {
+        "id": 1037,
+        "name": "auto: assemble",
+        "description": "automation is directly build/assembled, usually some kind of machine\n\nsomething can only count as automation if it could also be done manually by the player in some other way, with the automation therefore replacing manual labor (preferably introducing a certain depth)"
+    },
+    {
+        "id": 1038,
+        "name": "auto: configure",
+        "description": "automation is configured but not directly build/assembled\n\nsomething can only count as automation if it could also be done manually by the player in some other way, with the automation therefore replacing manual labor (preferably introducing a certain depth)"
+    },
+    {
+        "id": 1050,
+        "name": "character editor",
+        "description": "the game has a character editor which allows the player to personalize the character they play to some degree (age, gender, name, class, race, ..)"
+    },
+    {
+        "id": 1051,
+        "name": "chunk: continuous",
+        "description": "there are no clear boundaries in the game world, there are seamless transitions between different game parts"
+    },
+    {
+        "id": 1052,
+        "name": "chunk: package wise",
+        "description": "there are clear boundaries in the game world, different game parts can be named (or even separately chosen to play again)"
+    },
+    {
+        "id": 1054,
+        "name": "com: chat wheel",
+        "description": "players can post premade messages to a chat, usually by using a wheel where they can choose between a set of available messages\n\nThis acts as a barrier for toxicity and does not require devs to implement chat filters."
+    },
+    {
+        "id": 1055,
+        "name": "com: external",
+        "description": "players communicate outside of the game, e.g. because they are in the same location or by using other software"
+    },
+    {
+        "id": 1056,
+        "name": "com: free drawing",
+        "description": "players can draw to communicate with other players, e.g. by drawing on a map to indicate where something is"
+    },
+    {
+        "id": 1057,
+        "name": "com: free gestures",
+        "description": "players can communicate via free gestures (most likely only VR games)"
+    },
+    {
+        "id": 1058,
+        "name": "com: gestures",
+        "description": "players can communicate using a set of predefined gestures their character can make"
+    },
+    {
+        "id": 1059,
+        "name": "com: markers and pings",
+        "description": "players can communicate through markers and pings, i.e., small symbolic representations "
+    },
+    {
+        "id": 1060,
+        "name": "com: npc and npc",
+        "description": "NPCs talk to each other (e.g. ambient dialog or cutscenes) which can act as a source of information for the player"
+    },
+    {
+        "id": 1061,
+        "name": "com: npc and player",
+        "description": "NPCs communicate with the player (not their in-game character), e.g. in a tutorial. This can include narrators."
+    },
+    {
+        "id": 1062,
+        "name": "com: npc and playercharacter",
+        "description": "The players can communicate with NPCs via their in-game character, e.g. to gather information, complete quests, trade resources or just chat"
+    },
+    {
+        "id": 1063,
+        "name": "com: proximity communication",
+        "description": "Communication is bound to a location, e.g. players can only hear each other when they are close to each other in the game world.\nThis is allowed to be tagged for single player games."
+    },
+    {
+        "id": 1064,
+        "name": "com: soundboard",
+        "description": "players can communicate through a sound board, e.g., through a set of predefined spoken lines (voiced by someone else)"
+    },
+    {
+        "id": 1065,
+        "name": "com: text chat",
+        "description": "players can communicate through a text chat"
+    },
+    {
+        "id": 1066,
+        "name": "com: voice chat",
+        "description": "players can communicate through a voice chat"
+    },
+    {
+        "id": 1075,
+        "name": "dd: arrow indicator",
+        "description": "players are shown a direction through an arrow indicator to help them navigate"
+    },
+    {
+        "id": 1076,
+        "name": "dd: compass",
+        "description": "players can navigate with the help of a compass"
+    },
+    {
+        "id": 1077,
+        "name": "dd: ingame path trail",
+        "description": "directions are given through a path that is overlayed on the game world, e.g. to show players which way they must go"
+    },
+    {
+        "id": 1079,
+        "name": "enact violence",
+        "description": "players solve problems or progress by enacting violence like killing creatures and defeating enemies"
+    },
+    {
+        "id": 1080,
+        "name": "exp: heterogeneous",
+        "description": "players get a diverse game experience because the game activities are very different"
+    },
+    {
+        "id": 1081,
+        "name": "exp: homogeneous",
+        "description": "players get a more homogeneous game experience, the core game activities \"feel\" the same"
+    },
+    {
+        "id": 1085,
+        "name": "game object personalization",
+        "description": "players can personalize game objects, e.g., through naming, coloring or cosmetics (clothing, hair styles)"
+    },
+    {
+        "id": 1089,
+        "name": "ginfo: dialog",
+        "description": "players need to collect relevant information by talking to NPCs"
+    },
+    {
+        "id": 1090,
+        "name": "ginfo: exploration",
+        "description": "players need to gather information by investigating their environment in the hopes of finding something, e.g. new items, an NPCs to talk to, etc."
+    },
+    {
+        "id": 1091,
+        "name": "ginfo: lookup",
+        "description": "players need to gather information by looking up information in the game (looking at letters, looking at the quest log) - this does not include *searching*"
+    },
+    {
+        "id": 1092,
+        "name": "ginfo: remember self",
+        "description": "players need to remember gathered information themselves, since the game does not track it"
+    },
+    {
+        "id": 1093,
+        "name": "ginfo: scouting",
+        "description": "players need to collect information by (repeatedly) investigating an area, e.g. to check that nothing is there or to get information on an enemy"
+    },
+    {
+        "id": 1094,
+        "name": "ginfo: text search",
+        "description": "players can search through information by specifying search terms"
+    },
+    {
+        "id": 1095,
+        "name": "goc: critical failure",
+        "description": "the game is over when the player fails critically, e.g. death, which resets to a previous point in the game, thereby losing any progress between this point and the critical failure"
+    },
+    {
+        "id": 1096,
+        "name": "goc: none",
+        "description": "there is no direct game over condition, e.g., because the game continues after the story ends (Minecraft) or because there was no end to begin with (endless mode)"
+    },
+    {
+        "id": 1097,
+        "name": "goc: permadeath",
+        "description": "When the player dies, the game resets to the start, as is common for rogue-like games. This does not include games where the player can simply load, that would just be a critical failure."
+    },
+    {
+        "id": 1098,
+        "name": "goc: reach endpoint",
+        "description": "The game ends when a certain point is reached, e.g., the conclusion of the main quest. A game ending means that the game can not be played further without starting anew."
+    },
+    {
+        "id": 1099,
+        "name": "info: arrange",
+        "description": "players can spatially arrange information"
+    },
+    {
+        "id": 1100,
+        "name": "info: connect",
+        "description": "players can (visually) connect pieces of information, e.g. via red strings like a graph"
+    },
+    {
+        "id": 1101,
+        "name": "info: distribute",
+        "description": "players must distribute information amongst themselves to tackle problems (multiplayer only)"
+    },
+    {
+        "id": 1102,
+        "name": "info: mark/tag",
+        "description": "players can tag information, which can be abstract or concrete, e.g. by tagging video clips based on their content"
+    },
+    {
+        "id": 1103,
+        "name": "info: other",
+        "description": "placeholder for any missing tags to organize information"
+    },
+    {
+        "id": 1104,
+        "name": "info: record",
+        "description": "players can record information themselves, e.g. with a text note"
+    },
+    {
+        "id": 1105,
+        "name": "info: visibility",
+        "description": "players can (visually) hide information not relevant to the current problem, e.g. by clicking an item to reduce its rendering opacity\n\nthis does not include being able to show or hide information in windows, e.g. a quest log"
+    },
+    {
+        "id": 1107,
+        "name": "int: highlight",
+        "description": "visual highlights, e.g. for status changes, important entities, etc."
+    },
+    {
+        "id": 1108,
+        "name": "int: new data",
+        "description": "the game communicates that new data is available to the player, e.g., a new quest, new log entry, new armor, etc."
+    },
+    {
+        "id": 1110,
+        "name": "int: visual aid",
+        "description": "the game has visual aids (mostly for navigation) like ledges that are painted in a particular color to indicate that they can be climbed on"
+    },
+    {
+        "id": 1115,
+        "name": "map: drawing",
+        "description": "players can draw on a map"
+    },
+    {
+        "id": 1116,
+        "name": "map: minimap",
+        "description": "the game includes a minimap version of a larger map"
+    },
+    {
+        "id": 1117,
+        "name": "map: path trail",
+        "description": "path trails are shown on a map"
+    },
+    {
+        "id": 1118,
+        "name": "map: place symbols",
+        "description": "players can place symbols on the map, e.g. location markers"
+    },
+    {
+        "id": 1119,
+        "name": "map: quicktravel",
+        "description": "players can use something (icon) on a map to quickly travel to other locations\n\nNOTICE: A game feature is only quicktravel if the player could also travel the same distance in a slower way e.g. walking by foot vs clicking on the minimap."
+    },
+    {
+        "id": 1120,
+        "name": "map: symbols",
+        "description": "the game includes a map (at all), usually with symbols that provide information on specific locations"
+    },
+    {
+        "id": 1121,
+        "name": "mech: card game",
+        "description": "The game has mechanics based around card games. This can be actual card games or just prominent elements of card games."
+    },
+    {
+        "id": 1122,
+        "name": "mech: challenges",
+        "description": "the game has (optional) content intended to challenge players' skill, e.g. challenge dungeons"
+    },
+    {
+        "id": 1123,
+        "name": "mech: change game speed",
+        "description": "players can change the speed of the game, e.g., through slow motion/bullet time, by having a tactical pause or directly controling the speed (slower/faster)"
+    },
+    {
+        "id": 1124,
+        "name": "mech: combos",
+        "description": "the game has combos in some sense, e.g., when players successfully chain or combine (specific) attacks, when players can craft combos, etc."
+    },
+    {
+        "id": 1125,
+        "name": "mech: configurable quick access",
+        "description": "The player can configure some type of quick access. This could be a hotbar or a radial menu where items/skills can be assigned."
+    },
+    {
+        "id": 1126,
+        "name": "mech: other",
+        "description": "for any missing tags related to mechanics"
+    },
+    {
+        "id": 1127,
+        "name": "mech: physical save points",
+        "description": "there are physical objects in the game where the player can save and/or rest, optionally with replenishing their health\n\nsaving can mean creating a new save file or getting a new checkpoint"
+    },
+    {
+        "id": 1128,
+        "name": "mech: place & arrange",
+        "description": "players can place and arrange objects inside the game world, usually employed for building or moving units"
+    },
+    {
+        "id": 1129,
+        "name": "mech: predefined notes",
+        "description": "the game provides information in the form of notes, audio diaries, encylopedias, letters, etc."
+    },
+    {
+        "id": 1130,
+        "name": "mech: quest tracker display",
+        "description": "players can see their current quest objectives/tasks displayed on the screen (automatically or by setting a quest as active)"
+    },
+    {
+        "id": 1131,
+        "name": "mech: queue",
+        "description": "players can queue specific actions like movement or more complex commands; does not count if the game only internally uses a queue, it needs to be visually present or possible to see for the player"
+    },
+    {
+        "id": 1132,
+        "name": "mech: quicktime events",
+        "description": "the game contains events that require players to press a specific button in a given time window; can have bad consequences if failed"
+    },
+    {
+        "id": 1133,
+        "name": "mech: skilltree & upgrades",
+        "description": "the game includes systems, like a skill or research tree, where upgrades are successively unlocked by the player"
+    },
+    {
+        "id": 1134,
+        "name": "mech: stealth",
+        "description": "the game has stealth mechanics like sneaking, wearing disguises or stealing"
+    },
+    {
+        "id": 1135,
+        "name": "mech: transform",
+        "description": "players can transform things inside the game into other things, e.g. crafting (this does not including paying for things with money)"
+    },
+    {
+        "id": 1136,
+        "name": "mech: vehicles & mounts",
+        "description": "players can use vehicles or mounts (e.g., horses, dragons, etc.) to traverse the world: these must  1. have their own controls and 2. be an alternative way of moving. Should apply to almost everything where the player controls a vehicle or mount."
+    },
+    {
+        "id": 1139,
+        "name": "mini: busywork",
+        "description": "minigames that consist of busywork (see \"busywork\" tag), e.g. trivial and repetitive tasks\n\nminigames are generally expected to be different from the main game - for example in terms of input/movement"
+    },
+    {
+        "id": 1140,
+        "name": "mini: logic",
+        "description": "includes minigames that can primarily be solved by employing logic, e.g Towers of Hanoi\n\nminigames are generally expected to be different from the main game - for example in terms of input/movement"
+    },
+    {
+        "id": 1141,
+        "name": "mini: luck",
+        "description": "minigames that are luck based like flipping a coin\n\nminigames are generally expected to be different from the main game - for example in terms of input/movement"
+    },
+    {
+        "id": 1142,
+        "name": "mini: skill",
+        "description": "includes minigames that can primarily be solved through skill, e.g clicking objects in a short time frame in the correct order\n\nminigames are generally expected to be different from the main game - for example in terms of input/movement"
+    },
+    {
+        "id": 1143,
+        "name": "mini: strategy",
+        "description": "minigames that require the player to do some strategic thinking\n\nminigames are generally expected to be different from the main game - for example in terms of input/movement"
+    },
+    {
+        "id": 1146,
+        "name": "misc: collectibles",
+        "description": "the game has collectible items that players can collect during gameplay and that are usually displayed in a gallery somewhere"
+    },
+    {
+        "id": 1147,
+        "name": "misc: community content",
+        "description": "the game allows for community content (e.g., via the steam workshop)"
+    },
+    {
+        "id": 1148,
+        "name": "misc: difficulty settings",
+        "description": "the game allows players to customize the difficulty by selecting a difficulty level or customized game settings that influence difficulty"
+    },
+    {
+        "id": 1149,
+        "name": "misc: educational",
+        "description": "The game includes educational content that directly aims to be educational. This does not include when information/architecture is based on the real-world but just part of the game as such. There must be obvious intent to educate."
+    },
+    {
+        "id": 1150,
+        "name": "misc: secrets",
+        "description": "the game includes content that is hidden or not easily accessible, e.g. easter eggs, treasures, special endings .."
+    },
+    {
+        "id": 1151,
+        "name": "misc: tutorial",
+        "description": "the game includes a tutorial of some kind (can be big or small)"
+    },
+    {
+        "id": 1152,
+        "name": "mng: compose team",
+        "description": "players need to compose a team of units\n\nrequires that units influence each other e.g. in terms of interaction"
+    },
+    {
+        "id": 1153,
+        "name": "mng: consumables",
+        "description": "players need to manage consumable resources like money, materials, potions, etc."
+    },
+    {
+        "id": 1154,
+        "name": "mng: inventory",
+        "description": "players need to manage their inventory , which is limited by space or weight (choose which items to keep)"
+    },
+    {
+        "id": 1155,
+        "name": "mng: items",
+        "description": "players need to manage which items they use, buy, equip, etc."
+    },
+    {
+        "id": 1156,
+        "name": "mng: skills",
+        "description": "players need to manage skills, e.g., when to use a skill, when to upgrade it or which skills to equip"
+    },
+    {
+        "id": 1157,
+        "name": "mng: time",
+        "description": "players need to manage time, e.g., because the game has other systems based around time"
+    },
+    {
+        "id": 1158,
+        "name": "mng: units",
+        "description": "players need to manage mutliple units"
+    },
+    {
+        "id": 1159,
+        "name": "mul: couch coop",
+        "description": "(cooperative) multiplayer that is played in the same location, using a single device"
+    },
+    {
+        "id": 1160,
+        "name": "mul: leave game objects",
+        "description": "players can leave behind objects in the shared (multiplayer) world"
+    },
+    {
+        "id": 1161,
+        "name": "mul: leave text",
+        "description": "players can add (persistent) text to a shared (multiplayer) game world"
+    },
+    {
+        "id": 1162,
+        "name": "mul: local multiplayer",
+        "description": "multiplayer that is played in the same network (LAN), using multiple devices"
+    },
+    {
+        "id": 1163,
+        "name": "mul: online multiplayer",
+        "description": "multiplayer that is played online (using multiple devices)"
+    },
+    {
+        "id": 1166,
+        "name": "ord: branches",
+        "description": "game contents can be experienced/accessed in a branched order, i.e., there are different options but still some restrictions"
+    },
+    {
+        "id": 1167,
+        "name": "ord: linear",
+        "description": "game contents can only be experienced/accessed in a predetermined linear order"
+    },
+    {
+        "id": 1168,
+        "name": "ord: open",
+        "description": "game contents can be experienced/accessed in any order, e.g., in open-world games"
+    },
+    {
+        "id": 1172,
+        "name": "pc: discovery",
+        "description": "personal challenge based on discovery of new information about the story, game world, characters, etc."
+    },
+    {
+        "id": 1173,
+        "name": "pc: emotional challenges",
+        "description": "personal challenge based on emotional reactions to story developments or other parts of the game"
+    },
+    {
+        "id": 1174,
+        "name": "pc: labor or busywork",
+        "description": "personal challenge based on simply having to do a lot of work"
+    },
+    {
+        "id": 1175,
+        "name": "pc: logic challenges",
+        "description": "personal challenge based on using logic to find correct solutions"
+    },
+    {
+        "id": 1176,
+        "name": "pc: memory",
+        "description": "personal challenge based on remembering vital information"
+    },
+    {
+        "id": 1177,
+        "name": "pc: moral challenges",
+        "description": "personal challenge based around the morality of events in the game"
+    },
+    {
+        "id": 1178,
+        "name": "pc: other",
+        "description": "any other unique challenges"
+    },
+    {
+        "id": 1179,
+        "name": "pc: skill or dexterity",
+        "description": "personal challenge based on mastering a skill (usually hand-eye coordination) to a certain degree"
+    },
+    {
+        "id": 1180,
+        "name": "pc: strategy challenges",
+        "description": "personal challenge based on problems of a strategic nature, e.g. players must manage resources and make plans to overcome challenges"
+    },
+    {
+        "id": 1189,
+        "name": "rep: gameplay branches",
+        "description": "the game provides mechanics that result in different ways of playing the game (e.g. skilltree)\n\nthis does not apply to scenarios where the core gameplay is the same but with a slightly different flavor (e.g. pokemon)"
+    },
+    {
+        "id": 1190,
+        "name": "rep: meta progression",
+        "description": "players progress after finishing a game/match (e.g. increasing a character level in multiplayer games, etc.)"
+    },
+    {
+        "id": 1191,
+        "name": "rep: narrative branches",
+        "description": "players can make different choices for the narrative, resulting in different outcomes"
+    },
+    {
+        "id": 1192,
+        "name": "rep: scoring system",
+        "description": "game includes a scoring or ranking system that may motivate players to replay (sections of) the game"
+    },
+    {
+        "id": 1193,
+        "name": "rep: unlock content",
+        "description": "players unlock new content after finishing the game or a run of the game, e.g. new levels, new cosmetics, new game modes, story elements, etc."
+    },
+    {
+        "id": 1196,
+        "name": "res: apply logic",
+        "description": "players must apply logic for problem-solving, e.g., for abstract puzzles"
+    },
+    {
+        "id": 1197,
+        "name": "res: apply physics",
+        "description": "problem solving involves systems and rules based on physics, e.g. jump-and-run or more complex puzzles"
+    },
+    {
+        "id": 1198,
+        "name": "res: combine information",
+        "description": "players need to combine gathered information, it's less about applying logic and more about trying to find (loose) connections"
+    },
+    {
+        "id": 1199,
+        "name": "res: learn or apply language",
+        "description": "merge tags:\napply preknown language, body language, learn programming, learn unknown language"
+    },
+    {
+        "id": 1200,
+        "name": "res: process of elimination",
+        "description": "problem-solving is partially based on process of elimination"
+    },
+    {
+        "id": 1201,
+        "name": "res: social deduction",
+        "description": "players need to engage in social deduction for problem-solving"
+    },
+    {
+        "id": 1202,
+        "name": "res: strategic planning",
+        "description": "players must devise an appropriate strategy to solve problems, weighing different options and uncertainty"
+    },
+    {
+        "id": 1204,
+        "name": "rnd: ability outcome",
+        "description": "the outcome of an ability/skill is randomized to some degree"
+    },
+    {
+        "id": 1205,
+        "name": "rnd: ability select",
+        "description": "which abilities can be selected is randomized to some degree"
+    },
+    {
+        "id": 1206,
+        "name": "rnd: agents",
+        "description": "how (AI) agents are spawned or how they behave is randomized to some degree"
+    },
+    {
+        "id": 1207,
+        "name": "rnd: enemies",
+        "description": "how enemies are spawned or how they behave is randomized to some degree"
+    },
+    {
+        "id": 1208,
+        "name": "rnd: events",
+        "description": "random events can occur during gameplay (e.g. natural disasters or NPC quests)"
+    },
+    {
+        "id": 1209,
+        "name": "rnd: loot",
+        "description": "loot (items that enemies drop or that can be found in chests) is randomized to some degree, e.g., using a loot table"
+    },
+    {
+        "id": 1210,
+        "name": "rnd: world generation",
+        "description": "the game world is randomly generated to some degree, e.g., procedural generation"
+    },
+    {
+        "id": 1211,
+        "name": "rpt: grinding",
+        "description": "players can progress by grinding, this is very similar to busywork since players continuously do the same activity, e.g. kill a specific enemy type.\n\ncan be motivated internally (players want to level-up) or because the game difficulty forces them to by not providing other means of progressing"
+    },
+    {
+        "id": 1212,
+        "name": "rpt: practicing",
+        "description": "players may want to practice to tackle a (skill) challenge or simply get better"
+    },
+    {
+        "id": 1213,
+        "name": "rpt: trial and error",
+        "description": "players solve problems via trial and error since they can just try out different solution strategies without penalty (or with reloading)\n\nNOTICE: only tag this when this is a viable strategy"
+    },
+    {
+        "id": 1214,
+        "name": "sch: blueprint",
+        "description": "players can define or build blueprints that function as a planning help.\nThis can for example refer to a UI in which the player can plan what he wishes to do in the future."
+    },
+    {
+        "id": 1215,
+        "name": "sch: copy-paste",
+        "description": "players can use copy-paste features for building for example selecting an area that is copied to another location."
+    },
+    {
+        "id": 1216,
+        "name": "sch: recipe",
+        "description": "the game includes recipes, e.g., for crafting\nA recipe would contain a list of items that are required for crafting."
+    },
+    {
+        "id": 1217,
+        "name": "sch: template",
+        "description": "players can define (building) templates to reuse at another point in time. For example when creating a building and saving it to be build a second time later on."
+    },
+    {
+        "id": 1219,
+        "name": "set-g: adventure",
+        "description": "similar to adventure stories, where some venture is undertaken by the protagonist (think Indiana Jones, Tomb Raider, ..)"
+    },
+    {
+        "id": 1220,
+        "name": "set-g: comedy & parody",
+        "description": "the game has a comedic tone, not taking itself too seriously or explicitly aiming to be funny"
+    },
+    {
+        "id": 1221,
+        "name": "set-g: crime & mystery",
+        "description": "mystery stories, like detective fiction or crime thrillers"
+    },
+    {
+        "id": 1222,
+        "name": "set-g: fantasy",
+        "description": "contains many typical fantasy elements (magic, elves, dragons)"
+    },
+    {
+        "id": 1223,
+        "name": "set-g: horror & gore",
+        "description": "the story/gameplay features (psychological) horror and/or gore"
+    },
+    {
+        "id": 1224,
+        "name": "set-g: other",
+        "description": ""
+    },
+    {
+        "id": 1225,
+        "name": "set-g: post apocalypse",
+        "description": "the story is set in a post-apocalypse (zombies, nuclear bomb, ecocide, ..)"
+    },
+    {
+        "id": 1226,
+        "name": "set-g: science fiction",
+        "description": "science fiction story that is usually set in a futurist scenario with evolved technology (space ships, FTL travel, ..)"
+    },
+    {
+        "id": 1227,
+        "name": "set-g: space western",
+        "description": "futuristic space settings meets western elements (e.g. space cowboys)"
+    },
+    {
+        "id": 1228,
+        "name": "set-g: steampunk",
+        "description": "setting inspired by the victorian era with a heavy focus on steam-based machines"
+    },
+    {
+        "id": 1229,
+        "name": "set-g: western",
+        "description": "contains typical western elements like cowboys, sheriffs, and 19th century architecture/technology"
+    },
+    {
+        "id": 1230,
+        "name": "set-g: zombie apocalypse",
+        "description": "set in an apocalypse caused by zombies"
+    },
+    {
+        "id": 1231,
+        "name": "set-s: africa",
+        "description": "game location is set in (fictional) africa"
+    },
+    {
+        "id": 1232,
+        "name": "set-s: americas",
+        "description": "game location is set in (fictional) north or south america"
+    },
+    {
+        "id": 1233,
+        "name": "set-s: asia",
+        "description": "game location is set in (fictional) asia"
+    },
+    {
+        "id": 1234,
+        "name": "set-s: europe",
+        "description": "game location is set in (fictional) europe"
+    },
+    {
+        "id": 1235,
+        "name": "set-s: nature",
+        "description": "game location is mostly in nature (so not around human settlements)"
+    },
+    {
+        "id": 1236,
+        "name": "set-s: other",
+        "description": ""
+    },
+    {
+        "id": 1237,
+        "name": "set-s: sea",
+        "description": "game location is set at sea (can also be a ship)"
+    },
+    {
+        "id": 1238,
+        "name": "set-s: space",
+        "description": "game location is set in outer space"
+    },
+    {
+        "id": 1239,
+        "name": "set-s: space ship",
+        "description": "game is set on a space ship"
+    },
+    {
+        "id": 1240,
+        "name": "set-s: underwater",
+        "description": "game is largely set underwater"
+    },
+    {
+        "id": 1241,
+        "name": "set-s: urban",
+        "description": "game is set in urban areas (cities, villages)"
+    },
+    {
+        "id": 1242,
+        "name": "set-t: antiquity",
+        "description": "game is set in a (fictional) time from 800 b.c to 500"
+    },
+    {
+        "id": 1243,
+        "name": "set-t: early modern age",
+        "description": "game is set in a (fictional) time from 1500–1800, early modern period, between middle ages and modern period"
+    },
+    {
+        "id": 1244,
+        "name": "set-t: futuristic",
+        "description": "game is set in a (fictional) futuristic time"
+    },
+    {
+        "id": 1245,
+        "name": "set-t: middle ages",
+        "description": "game is set in a (fictional) time from 500 to 1500"
+    },
+    {
+        "id": 1246,
+        "name": "set-t: modern times",
+        "description": "game is set in a (fictional) modern times starting around the 20th century"
+    },
+    {
+        "id": 1247,
+        "name": "set-t: other",
+        "description": ""
+    },
+    {
+        "id": 1252,
+        "name": "sim: daily routines",
+        "description": "agents in the game have simulated daily routines"
+    },
+    {
+        "id": 1253,
+        "name": "sim: day-night cycle",
+        "description": "the game includes a day/night cycle or meaningful connection of daytime to other game mechanics"
+    },
+    {
+        "id": 1254,
+        "name": "sim: economy",
+        "description": "the game features a simulated (even if simple) economy with supply and demand"
+    },
+    {
+        "id": 1255,
+        "name": "sim: needs",
+        "description": "the game simulates needs of people, animals, plants, etc."
+    },
+    {
+        "id": 1256,
+        "name": "sim: seasons & weather",
+        "description": "the game simulates weather or seasons in some way meaningful to other game mechanics"
+    },
+    {
+        "id": 1259,
+        "name": "spn: marker",
+        "description": "the game provides markers in the game world to support spatial navigation"
+    },
+    {
+        "id": 1260,
+        "name": "spn: object quicktravel",
+        "description": "players can quicktravel using objects in the game world like portals, teleport scrolls, gates, etc."
+    },
+    {
+        "id": 1261,
+        "name": "spn: other",
+        "description": "any other type of spatial navigation"
+    },
+    {
+        "id": 1262,
+        "name": "spn: pings",
+        "description": "players can support spatial navigation through pings (likely only multiplayer)"
+    },
+    {
+        "id": 1263,
+        "name": "struc: cyclic",
+        "description": "the game has a cyclic structure, i.e., it can (or should) be played multiple times for a good player experience"
+    },
+    {
+        "id": 1264,
+        "name": "struc: match based",
+        "description": "the game is match-based, i.e., each play session consists of 1 or more matches that are clearly separated from each other\n\nthe most prominent examples can be found in multiplayer games (e.g. DotA 2 or Counter Strike)"
+    },
+    {
+        "id": 1265,
+        "name": "struc: turnbased",
+        "description": "(some) parts of the game are structured in a turn-based manner, usually related to combat"
+    },
+    {
+        "id": 1267,
+        "name": "subversion: game mechanics",
+        "description": "the game subverts known conventions around game mechanics"
+    },
+    {
+        "id": 1268,
+        "name": "subversion: storytelling",
+        "description": "the game subverts conventions around storytelling practices"
+    },
+    {
+        "id": 1270,
+        "name": "top: aliens",
+        "description": "the game tackles topics/issues related to aliens, be they friendly or hostile"
+    },
+    {
+        "id": 1271,
+        "name": "top: art",
+        "description": "the game tackles topics/issues related to art"
+    },
+    {
+        "id": 1272,
+        "name": "top: colonialization",
+        "description": "the game tackles topics/issues related to colonization"
+    },
+    {
+        "id": 1274,
+        "name": "top: conquest",
+        "description": "the game tackles topics/issues related to (violent) conquest"
+    },
+    {
+        "id": 1275,
+        "name": "top: creatures",
+        "description": "the game tackles topics/issues related to creatures, which are fantastical or otherworldly lifeforms that need not be hostile"
+    },
+    {
+        "id": 1277,
+        "name": "top: discrimination",
+        "description": "the game tackles topics/issues related to discrimination (racism, sexism, ..)"
+    },
+    {
+        "id": 1278,
+        "name": "top: economy",
+        "description": "the game tackles topics/issues related to the economy, e.g. how people are affected by it differently"
+    },
+    {
+        "id": 1279,
+        "name": "top: ecosystems",
+        "description": "the game tackles topics/issues related to ecosystems, e.g. how they work or how they can end up collapsing"
+    },
+    {
+        "id": 1280,
+        "name": "top: family & friends",
+        "description": "the game tackles topics/issues related to family and friendship"
+    },
+    {
+        "id": 1282,
+        "name": "top: free will",
+        "description": "the game tackles topics/issues related to free will"
+    },
+    {
+        "id": 1283,
+        "name": "top: gods",
+        "description": "the game tackles topics/issues related to gods, can be in the form of mythology or other"
+    },
+    {
+        "id": 1284,
+        "name": "top: grief & loss",
+        "description": "the game tackles topics/issues related to grief and loss"
+    },
+    {
+        "id": 1285,
+        "name": "top: language",
+        "description": "the game tackles topics/issues related to language, e.g. how we communicate with language and how that shapes culture"
+    },
+    {
+        "id": 1286,
+        "name": "top: machine intelligence",
+        "description": "the game tackles topics/issues related to machine intelligence"
+    },
+    {
+        "id": 1287,
+        "name": "top: magic",
+        "description": "the game tackles topics/issues related to magic and the supernatural"
+    },
+    {
+        "id": 1288,
+        "name": "top: monsters",
+        "description": "the game tackles topics/issues related to monsters, e.g. hostile creatures that aim to hurt people"
+    },
+    {
+        "id": 1289,
+        "name": "top: music",
+        "description": "the game tackles topics/issues related to music"
+    },
+    {
+        "id": 1290,
+        "name": "top: other",
+        "description": "for any missing topics, e.g. technology"
+    },
+    {
+        "id": 1291,
+        "name": "top: parenthood",
+        "description": "the game tackles topics/issues related to parenthood, be they from the parent's or the child's perspective"
+    },
+    {
+        "id": 1293,
+        "name": "top: plants",
+        "description": "the game tackles topics/issues related to plant life"
+    },
+    {
+        "id": 1294,
+        "name": "top: power struggle",
+        "description": "the game tackles topics/issues related to power struggles, e.g. between neighboring countries, families, etc."
+    },
+    {
+        "id": 1295,
+        "name": "top: religion",
+        "description": "the game tackles topics/issues related to religion, e.g. spirituality and the workings of organized religion"
+    },
+    {
+        "id": 1296,
+        "name": "top: romantic love",
+        "description": "the game tackles topics/issues related to romantic love, e.g. falling in love, romantic relationships, etc."
+    },
+    {
+        "id": 1297,
+        "name": "top: sanity",
+        "description": "the game tackles topics/issues related to sanity and mental health"
+    },
+    {
+        "id": 1298,
+        "name": "top: settlement",
+        "description": "the game tackles topics/issues related to founding/building/maintaining a settlement"
+    },
+    {
+        "id": 1299,
+        "name": "top: sports",
+        "description": "the game tackles topics/issues related to sports"
+    },
+    {
+        "id": 1301,
+        "name": "top: synthetic life",
+        "description": "the game tackles topics/issues related to synthetic life, usually created by people"
+    },
+    {
+        "id": 1302,
+        "name": "top: time",
+        "description": "the game tackles topics/issues related to time, e.g. when the player needs to achieve something in a specific amount of time, or when a groundhog day scenario is at play"
+    },
+    {
+        "id": 1303,
+        "name": "top: violence",
+        "description": "the game tackles topics/issues related to violence, e.g. why/how/when people inflict violence upon each other"
+    },
+    {
+        "id": 1304,
+        "name": "top: war",
+        "description": "the game tackles topics/issues related to war"
+    },
+    {
+        "id": 1307,
+        "name": "ui: accessibility",
+        "description": "UI settings for accessibility, e.g., a color-blind mode"
+    },
+    {
+        "id": 1308,
+        "name": "ui: sandbox",
+        "description": "UI sandbox that allows players to freely organize the layout"
+    },
+    {
+        "id": 1309,
+        "name": "vis: bars",
+        "description": "the game contains bar-based visualizations, e.g. health bars"
+    },
+    {
+        "id": 1310,
+        "name": "vis: charts",
+        "description": "the game contains charts (axes + data), e.g. a line chart showing number of slain enemies over time"
+    },
+    {
+        "id": 1311,
+        "name": "vis: graphs",
+        "description": "the game contains graph-like visualizations of data in the game, e.g. a skilltree"
+    },
+    {
+        "id": 1312,
+        "name": "vis: icons & symbols",
+        "description": "the game contains icons or symbols that encode game-relevant data (cannot be JUST interface elements)"
+    },
+    {
+        "id": 1313,
+        "name": "vis: matrix & tables",
+        "description": "the game contains matrix-like visualizations or tables of data"
+    },
+    {
+        "id": 1314,
+        "name": "vis: other",
+        "description": "all types of visualizations that do not fall into one of the other categories"
+    },
+    {
+        "id": 1315,
+        "name": "vis: overlay",
+        "description": "the game visualizes data through an overlay"
+    },
+    {
+        "id": 1317,
+        "name": "vision: cones",
+        "description": "vision works through cones (visible)"
+    },
+    {
+        "id": 1318,
+        "name": "vision: fog of war",
+        "description": "game has fog of war, i.e., vision is limited to some area around players and other items/units/objects that give vision\nthis can include unexplored areas on a map being hidden"
+    },
+    {
+        "id": 1319,
+        "name": "vision: other",
+        "description": "game includes some other form of vision model"
+    },
+    {
+        "id": 1321,
+        "name": "wyd: building",
+        "description": "the player does a lot of building, e.g. a city, machines, etc."
+    },
+    {
+        "id": 1322,
+        "name": "wyd: crafting",
+        "description": "the player does a lot of crating, e.g weapons, potions, spells, furniture, meals, etc."
+    },
+    {
+        "id": 1323,
+        "name": "wyd: detective work",
+        "description": "the player does activities related to detective work, e.g. talking to witnesses, gathering evidence, connecting pieces of information, etc."
+    },
+    {
+        "id": 1324,
+        "name": "wyd: exploring",
+        "description": "the player does a lot of exploring of the game (world)"
+    },
+    {
+        "id": 1325,
+        "name": "wyd: farming",
+        "description": "the player does a lot of farming, e.g. buying and sowing crops, watering them and harvesting"
+    },
+    {
+        "id": 1326,
+        "name": "wyd: fighting",
+        "description": "the player does a lot of fighting, be it melee or ranged, against some type of enemy"
+    },
+    {
+        "id": 1327,
+        "name": "wyd: managing",
+        "description": "the player does a lot of managing, e.g. hiring and firing employees, starting machines, buying supplies, ordering units around, etc."
+    },
+    {
+        "id": 1328,
+        "name": "wyd: platforming",
+        "description": "the player does a lot of platforming, e.g. jumping between platforms"
+    },
+    {
+        "id": 1329,
+        "name": "wyd: puzzling",
+        "description": "the player does a lot of puzzling, e.g. they need to solve logic riddles"
+    },
+    {
+        "id": 1330,
+        "name": "wyd: racing",
+        "description": "the player does a lot of racing with some kind of vehicle/mount"
+    }
+]

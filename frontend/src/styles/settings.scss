@@ -1,0 +1,96 @@
+/**
+ * src/styles/settings.scss
+ *
+ * Configures SASS variables and Vuetify overwrites
+ */
+
+// https://vuetifyjs.com/features/sass-variables/`
+// @use 'vuetify/settings' with (
+//   $color-pack: false
+// );
+
+.clickable {
+    cursor: pointer;
+}
+
+.valid-target {
+    cursor: pointer;
+}
+
+.rot-border {
+    stroke-width: 3;
+    animation: rot-border 1.2s ease-in-out infinite;
+}
+
+.md ul {
+    padding-left: 2em;
+    list-style-type: disc;
+}
+.md ol {
+    padding-left: 2em;
+    list-style-type: upper-greek;
+}
+
+@keyframes rot-border {
+    0% {
+        stroke-width: 2;
+        transform: rotateZ(360deg);
+    }
+    50% {
+        stroke-width: 5;
+    }
+    100% {
+        stroke-width: 2;
+        transform: rotateZ(360deg);
+    }
+}
+
+.text-dots {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.hover-italic:hover {
+    font-style: italic;
+}
+.hover-bold:hover {
+    font-weight: bold;
+}
+.hover-bg-grey:hover {
+    background-color: #efefef;
+}
+
+.aPulse {
+    animation: pulse 500ms cubic-bezier(0.33, 1, 0.68, 1) infinite;
+}
+.aSat {
+    animation: sat 500ms cubic-bezier(0.33, 1, 0.68, 1) infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes sat {
+    0% {
+        filter: saturate(1)
+    }
+
+    50% {
+        filter: saturate(1.5)
+    }
+
+    100% {
+        filter: saturate(1)
+    }
+}

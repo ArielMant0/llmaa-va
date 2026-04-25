@@ -1,0 +1,41 @@
+CREATE TABLE IF NOT EXISTS dota2 (
+    id SERIAL PRIMARY KEY,
+    dataset_id INTEGER NOT NULL,
+    item_id INTEGER NOT NULL,
+
+    name VARCHAR(50) NOT NULL NOT NULL,
+    primary_attribute VARCHAR(25) NOT NULL,
+    attack_type VARCHAR(25) NOT NULL,
+    base_health INTEGER NOT NULL,
+    base_health_regen FLOAT NOT NULL,
+    base_mana INTEGER NOT NULL,
+    base_mana_regen FLOAT NOT NULL,
+    base_armor INTEGER NOT NULL,
+    base_magic_resist INTEGER NOT NULL,
+    base_attack_min INTEGER NOT NULL,
+    base_attack_max INTEGER NOT NULL,
+    base_str INTEGER NOT NULL,
+    base_agi INTEGER NOT NULL,
+    base_int INTEGER NOT NULL,
+    str_gain FLOAT NOT NULL,
+    agi_gain FLOAT NOT NULL,
+    int_gain FLOAT NOT NULL,
+    attack_range INTEGER NOT NULL,
+    projectile_speed INTEGER NOT NULL,
+    attack_rate FLOAT NOT NULL,
+    base_attack_time FLOAT NOT NULL,
+    move_speed INTEGER NOT NULL,
+    legs INTEGER NOT NULL,
+    day_vision INTEGER NOT NULL,
+    night_vision INTEGER NOT NULL,
+    pro_pick INTEGER NOT NULL,
+    pro_win INTEGER NOT NULL,
+    pro_ban INTEGER NOT NULL,
+    pub_pick INTEGER NOT NULL,
+    pub_win INTEGER NOT NULL,
+
+    x FLOAT NOT NULL,       -- dimred x coordinate
+    y FLOAT NOT NULL,       -- dimred y coordinate
+    FOREIGN KEY (dataset_id) REFERENCES datasets(id),
+    FOREIGN KEY (item_id) REFERENCES items(id)
+);
