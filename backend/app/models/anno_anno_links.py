@@ -37,9 +37,9 @@ def add_anno_anno_links(cur, data: list[dict]):
     )
 
 
-def delete_anno_anno_link(cur, id: str):
+def delete_anno_anno_link(cur, id: int):
     return delete_id(cur, "anno_anno_links", id)
 
 
-def delete_anno_anno_links(cur, ids: list[str]):
+def delete_anno_anno_links(cur, ids: list[int]):
     return delete_id_many(cur, "anno_anno_links", ids)

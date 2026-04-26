@@ -17,6 +17,21 @@ export class Modifier {
         this.type = type
     }
 
+    static fromJSON(entry, json) {
+        if (json.type === MODIFIER_TYPE.COLOR_FUNCTION) {
+            return new ColorFunctionModifier(
+                entry,
+                json.entities,
+                json.options
+            )
+        }
+        return new Modifier(entry, json.type)
+    }
+
+    toJSON() {
+
+    }
+
     applyAll() {
         throw new Error("called abstract method")
     }

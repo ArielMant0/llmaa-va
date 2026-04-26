@@ -47,54 +47,46 @@ def get_annotations(dataset) -> Response:
 @ds_bp.post("/create/annotation")
 def create_annotation() -> Response:
     cur = db.cursor()
-    if models.m_anno.create_from_json(cur, request.json):
-        db.commit()
 
-    return Response("TODO", status=200)
+    try:
+        aid = models.m_anno.create_from_json(cur, request.json)
+        if aid is not None:
+            db.commit()
+    except Exception as e:
+        print(str(e))
+        return Response(str(e), status=500)
+
+    return jsonify({ "id": aid })
 
 
 @ds_bp.post("/create/annotation_entry")
 def create_annotation_entry() -> Response:
     cur = db.cursor()
-    data = request.json
 
-    eid = models.m_ae.add_anno_entry(cur, data, "id")
+    try:
+        eid = models.m_ae.create_from_json(cur, request.json)
+        if eid is not None:
+            db.commit()
+    except Exception as e:
+        print(str(e))
+        return Response(str(e), status=500)
 
-    col_links = []
-    anno_links = []
-    
-    col_links = models.m_ae.parse_column_entities(data["entities"], eid)
-    anno_links = models.m_ae.parse_anno_entities(data["entities"], eid)
-
-    models.m_acl.add_anno_column_links(cur, col_links)
-    models.m_aal.add_anno_anno_links(cur, anno_links)
-
-    db.commit()
-
-    return Response("TODO", status=200)
+    return jsonify({ "id": eid })
 
 
 @ds_bp.post("/create/group")
 def create_group() -> Response:
     cur = db.cursor()
-    data = request.json
-
-    # get group id
-    gid = data["id"]
 
     try:
-        if not models.m_gr.exists(cur, gid):
-            models.m_gr.add_group(cur, data)
-            # add members to groups
-            models.m_gm.add_group_members(
-                cur,
-                [{ "group_id": data["id"], "item_id": d } for d in data["ids"]]
-            )
+        gid = models.m_gr.create_from_json(cur, request.json)
+        if gid is not None:
             db.commit()
-    except:
-        return Response("error", status=500)
+    except Exception as e:
+        print(str(e))
+        return Response(str(e), status=500)
 
-    return Response("TODO", status=200)
+    return jsonify({ "id": gid })
 
 
 #########################################################################
@@ -106,16 +98,19 @@ def update_annotation() -> Response:
     cur = db.cursor()
     data = request.json
 
-    aid = data["id"]
-    print(data)
-    if models.m_anno.exists(cur, aid):
-        models.m_anno.update_from_json(cur, data)
-    else:
-        models.m_anno.create_from_json(cur, data)
+    try:
+        aid = data.get("id", None)
+        if aid is not None and models.m_anno.exists(cur, aid):
+            models.m_anno.update_from_json(cur, data)
+        else:
+            aid = models.m_anno.create_from_json(cur, data)
 
-    db.commit()
+        db.commit()
+    except Exception as e:
+        print(str(e))
+        return Response(str(e), status=500)
 
-    return Response("TODO", status=200)
+    return jsonify({ "id": aid })
 
 
 @ds_bp.post("/update/group")
@@ -123,13 +118,13 @@ def update_group() -> Response:
     cur = db.cursor()
     data = request.json
 
-    # get group id
-    gid = data["id"]
     try:
-        if models.m_gr.exists(cur, gid):
+        # get group id
+        gid = data.get("id", None)
+        if gid is not None and models.m_gr.exists(cur, gid):
             models.m_gr.update_group_members(cur, gid, data["ids"])
         else:
-            models.m_gr.add_group(cur, data)
+            gid = models.m_gr.add_group(cur, data)
             # add members to groups
             models.m_gm.add_group_members(
                 cur,
@@ -141,9 +136,7 @@ def update_group() -> Response:
         print(str(e))
         return Response("error", status=500)
 
-    db.commit()
-
-    return Response("TODO", status=200)
+    return jsonify({ "id": gid })
 
 
 #########################################################################
@@ -154,11 +147,14 @@ def update_group() -> Response:
 def delete_annotation() -> Response:
     cur = db.cursor()
     data = request.json
-    # delete this annotation
-    models.m_anno.delete_annotation(cur, data["id"])
+    try:
+        # delete this annotation
+        models.m_anno.delete_annotation(cur, data["id"])
+        db.commit()
+    except Exception as e:
+        print(str(e))
+        return Response("error", status=500)
     
-    db.commit()
-
     return Response("TODO", status=200)
 
 
@@ -166,10 +162,14 @@ def delete_annotation() -> Response:
 def delete_anno_entry() -> Response:
     cur = db.cursor()
     data = request.json
-    # delete this annotation entry
-    models.m_ae.delete_anno_entry(cur, data["id"])
-    
-    db.commit()
+
+    try:
+        # delete this annotation entry
+        models.m_ae.delete_anno_entry(cur, data["id"])
+        db.commit()
+    except Exception as e:
+        print(str(e))
+        return Response("error", status=500)
 
     return Response("TODO", status=200)
 
@@ -178,11 +178,14 @@ def delete_anno_entry() -> Response:
 def delete_anno_column_link() -> Response:
     cur = db.cursor()
     data = request.json
-    # delete this entry column link
-    models.m_acl.delete_anno_column_link(cur, data["id"])
+    try:
+        # delete this entry column link
+        models.m_acl.delete_anno_column_link(cur, data["id"])
+        db.commit()
+    except Exception as e:
+        print(str(e))
+        return Response("error", status=500)
     
-    db.commit()
-
     return Response("TODO", status=200)
 
 
@@ -190,10 +193,14 @@ def delete_anno_column_link() -> Response:
 def delete_anno_anno_link() -> Response:
     cur = db.cursor()
     data = request.json
-    # delete this entry annotation link
-    models.m_aal.delete_anno_anno_link(cur, data["id"])
-    
-    db.commit()
+
+    try:
+        # delete this entry annotation link
+        models.m_aal.delete_anno_anno_link(cur, data["id"])
+        db.commit()
+    except Exception as e:
+        print(str(e))
+        return Response("error", status=500)
 
     return Response("TODO", status=200)
 
@@ -202,10 +209,14 @@ def delete_anno_anno_link() -> Response:
 def delete_group() -> Response:
     cur = db.cursor()
     data = request.json
-    # delete this group
-    models.m_gr.delete_group(cur, data["id"])
-    
-    db.commit()
+
+    try:
+        # delete this group
+        models.m_gr.delete_group(cur, data["id"])
+        db.commit()
+    except Exception as e:
+        print(str(e))
+        return Response("error", status=500)
 
     return Response("TODO", status=200)
 
@@ -214,10 +225,14 @@ def delete_group() -> Response:
 def delete_anno_group_link() -> Response:
     cur = db.cursor()
     data = request.json
-    # delete this group link
-    models.m_agl.delete_anno_group_link(cur, data["id"])
-    
-    db.commit()
+
+    try:
+        # delete this group link
+        models.m_agl.delete_anno_group_link(cur, data["id"])
+        db.commit()
+    except Exception as e:
+        print(str(e))
+        return Response("error", status=500)
 
     return Response("TODO", status=200)
     

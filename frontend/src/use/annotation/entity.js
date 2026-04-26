@@ -1,3 +1,4 @@
+import DM from "../data-manager"
 import { ACTION_TARGET } from "./action-target"
 
 let _EID = 1
@@ -25,24 +26,31 @@ export function compareEntityType(a, b) {
 
 export class Entity {
 
-    constructor(type, targetType, dataId, data) {
-        this.id = `${_EID++}_${type}_ent`
-        this.type = type
+    constructor(target, targetType, type) {
+        this.target = target
         this.targetType = targetType
-        this.dataId = dataId
-        this.data = data
+        this.type = type
+        this.name = "entity " + this.id
+    }
+
+    get id() {
+        return this.target.id
     }
 
     static fromJSON(json) {
         switch (json.type) {
             case ENTITY_TYPE.SELECTION:
-                return new SelectionEntity(json.id, json.data, json.name)
+                const selection = DM.getSelectionById(json.id)
+                return new SelectionEntity(selection, json.name)
             case ENTITY_TYPE.COLUMN:
-                return new ColumnEntity(json.id, json.data, json.name, json.value)
+                const column = DM.getColumnById(json.id)
+                return new ColumnEntity(column, json.name, json.value)
             case ENTITY_TYPE.ANNOTATION:
-                return new AnnotationEntity(json.id, json.data, json.name)
+                const entry = DM.getAnnotationEntryById(json.id)
+                return new AnnotationEntryEntity(entry, json.name)
             case ENTITY_TYPE.DATAPOINT:
-                return new DatapointEntity(json.id, json.data, json.values)
+                const dp = DM.getDataBy(d => d.id === json.id).at(0)
+                return new DatapointEntity(dp, json.values)
         }
     }
 
@@ -50,7 +58,7 @@ export class Entity {
         return {
             id: this.id,
             type: this.type,
-            data_id: this.dataId
+            name: this.name
         }
     }
 }
@@ -58,36 +66,46 @@ export class Entity {
 
 export class SelectionEntity extends Entity {
 
-    constructor(id, data, name=data, selection=null) {
-        super(ENTITY_TYPE.SELECTION, ACTION_TARGET.SELECTION, id, data)
+    constructor(selection, name) {
+        super(selection, ACTION_TARGET.SELECTION, ENTITY_TYPE.SELECTION)
         this.name = name
-        this.selection = selection
     }
 }
 
 export class DatapointEntity extends Entity {
 
-    constructor(id, data, values=null) {
-        super(ENTITY_TYPE.DATAPOINT, ACTION_TARGET.DATAPOINT, id, data)
-        this.name = `data point ${id}`
+    constructor(datapoint, values=null) {
+        super(datapoint, ACTION_TARGET.DATAPOINT, ENTITY_TYPE.DATAPOINT)
+        this.name = datapoint.name ? datapoint.name : `data point ${datapoint.id}`
         this.values = values
+    }
+
+    toJSON() {
+        const json = super.toJSON()
+        json.values = this.values
+        return json
     }
 }
 
 export class ColumnEntity extends Entity {
 
-    constructor(id, data, name=data, value=null) {
-        super(ENTITY_TYPE.COLUMN, ACTION_TARGET.COLUMN, id, data)
+    constructor(column, name, value=null) {
+        super(column, ACTION_TARGET.COLUMN, ENTITY_TYPE.COLUMN)
         this.name = name
         this.value = value
     }
+
+    toJSON() {
+        const json = super.toJSON()
+        json.value = this.value
+        return json
+    }
 }
 
-export class AnnotationEntity extends Entity {
+export class AnnotationEntryEntity extends Entity {
 
-    constructor(id, data, name=data, annotation=null) {
-        super(ENTITY_TYPE.ANNOTATION, ACTION_TARGET.ANNOTATION, id, data)
+    constructor(entry, name) {
+        super(entry, ACTION_TARGET.ANNOTATION, ENTITY_TYPE.ANNOTATION)
         this.name = name
-        this.annotation = annotation
     }
 }

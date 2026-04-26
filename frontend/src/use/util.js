@@ -1,7 +1,7 @@
 import { DATA_TYPES, useData } from '@/stores/data';
-import { bin, deviation, extent, group, interpolatePlasma, mean, scaleOrdinal, scaleQuantile, scaleSequential, schemeBlues, schemeCategory10, schemeOrRd } from "d3";
+import { bin, deviation, extent, group, interpolatePlasma, scaleOrdinal, scaleQuantile, scaleSequential, schemeBlues, schemeCategory10, schemeOrRd } from "d3";
 import DM from "./data-manager";
-import { AnnotationEntity, ColumnEntity, DatapointEntity } from "./annotation/entity";
+import { AnnotationEntryEntity, ColumnEntity } from "./annotation/entity";
 
 let _UID = 1;
 
@@ -232,20 +232,20 @@ export function parseEntities(response) {
 
     if (response.columns) {
         entities = response.columns.map(id => {
-            const col = DM.columnsRaw.find(d => d.id === id)
-            return col ? new ColumnEntity(id, col.name) : null
+            const col = DM.getColumnById(id)
+            return col ? new ColumnEntity(col, col.name) : null
         })
     }
 
     if (response.columns_weights) {
         for (const id in response.columns_weights) {
-            const col = DM.columnsRaw.find(d => d.id === id)
+            const col = DM.getColumnById(id)
             if (col) {
-                const existing = entities.find(d => d.dataId === id)
+                const existing = entities.find(d => d.id === id)
                 if (existing) {
                     existing.value = response.columns_weights[id]
                 } else {
-                    entities.push(new ColumnEntity(id, col.name, response.columns_weights[id]))
+                    entities.push(new ColumnEntity(col, col.name, response.columns_weights[id]))
                 }
             }
             
@@ -258,10 +258,11 @@ export function parseEntities(response) {
     // }
     
     if (response.annotations) {
-        response.annotations.forEach(aid => {
-            const anno = DM.getAnnotationById(aid)
-            if (anno) {
-                entities.push(new AnnotationEntity(aid, aid, anno.label, anno))
+        response.annotations.forEach(eid => {
+            const entry = DM.getAnnotationEntryById(eid)
+            const anno = entry._anno
+            if (entry) {
+                entities.push(new AnnotationEntryEntity(entry, anno.label))
             }
         })
     }

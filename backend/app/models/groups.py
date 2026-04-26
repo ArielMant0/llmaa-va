@@ -12,16 +12,16 @@ from app.utils import (
 from pypika import Table, Query
 
 
-def exists(cur, id: str):
+def exists(cur, id: int):
     return get_group(cur, id) is not None
 
 
-def get_dataset(cur, id: str):
+def get_dataset(cur, id: int):
     group = get_group(cur, id)
     return group["dataset_id"] if group is not None else None
 
 
-def get_group(cur, id: str):
+def get_group(cur, id: int):
     groups = Table("groups")
     q = Query.from_(groups).select("*").where(groups.id == id)
     return fetchone(cur, q.get_sql())
@@ -43,11 +43,19 @@ def get_group_by_annotation(cur, annotation: str):
     return fetchone(cur, q.get_sql())
 
 
+def create_from_json(cur, data: dict):
+    gid = data.get("id", None)
+    if gid is None or not exists(cur, gid):
+        return add_group(cur, data, "id")
+    
+    return None
+
+
 def add_group(cur, data: dict, return_field: str = "id"):
     return insert_dict(
         cur,
         "groups",
-        ["id", "type", "dataset_id"],
+        ["type", "dataset_id"],
         data,
         return_field
     )
@@ -57,12 +65,12 @@ def add_groups(cur, data: list[dict]):
     return insert_dict_many(
         cur,
         "groups",
-        ["id", "type", "dataset_id"],
+        ["type", "dataset_id"],
         data
     )
 
 
-def update_group_members(cur, id: str, members: list[int]):
+def update_group_members(cur, id: int, members: list[int]):
     
     # get existing group members
     tmp = m_gm.get_group_members(cur, id)
@@ -92,9 +100,9 @@ def update_group_members(cur, id: str, members: list[int]):
     return cur
 
 
-def delete_group(cur, id: str):
+def delete_group(cur, id: int):
     return delete_id(cur, "groups", id)
 
 
-def delete_groups(cur, ids: list[str]):
+def delete_groups(cur, ids: list[int]):
     return delete_id_many(cur, "groups", ids)

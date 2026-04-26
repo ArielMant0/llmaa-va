@@ -2,8 +2,6 @@ import { mean, polygonContains } from "d3";
 import { findInCircle, getAttr } from "../util";
 import { makePolygon } from "./polygon";
 
-let _SEL_ID = 1;
-
 export const SELECTION_TYPE = Object.freeze({
     BASE: 1,
     LENS: 2,
@@ -13,7 +11,7 @@ export const SELECTION_TYPE = Object.freeze({
 export class Selection {
 
     constructor(data=[], type=SELECTION_TYPE.BASE, id=null) {
-        this.id = id ?? `${_SEL_ID++}_sel`
+        this.id = id
         this.type = type
         this.data = new Set(data)
 
@@ -25,7 +23,12 @@ export class Selection {
 
     static fromJSON(json) {
         // TODO: save which kind of selection we have
-        return new BrushSelection(json.ids)
+        return new BrushSelection(
+            json.ids,
+            SELECTION_TYPE.BASE,
+            null,
+            json.id
+        )
     }
 
     static dataUnion(selections) {

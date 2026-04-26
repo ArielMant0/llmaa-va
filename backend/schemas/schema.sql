@@ -20,7 +20,7 @@ CREATE TABLE columns (
 );
 
 CREATE TABLE groups (
-    id TEXT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     type INTEGER NOT NULL,
     dataset_id INTEGER NOT NULL,
     FOREIGN KEY (dataset_id) REFERENCES datasets(id) ON DELETE CASCADE
@@ -28,14 +28,14 @@ CREATE TABLE groups (
 
 CREATE TABLE group_members (
     id SERIAL PRIMARY KEY,
-    group_id TEXT NOT NULL,
+    group_id INTEGER NOT NULL,
     item_id INTEGER NOT NULL,
     FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
     FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
 );
 
 CREATE TABLE annotations (
-    id TEXT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     dataset_id INTEGER NOT NULL,
     author TEXT NOT NULL,
     title TEXT NOT NULL,
@@ -45,8 +45,8 @@ CREATE TABLE annotations (
 );
 
 CREATE TABLE anno_entries (
-    id TEXT PRIMARY KEY,
-    annotation_id TEXT NOT NULL,
+    id SERIAL PRIMARY KEY,
+    annotation_id INTEGER NOT NULL,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     text TEXT DEFAULT NULL,
@@ -58,15 +58,15 @@ CREATE TABLE anno_entries (
 
 CREATE TABLE anno_group_links (
     id SERIAL PRIMARY KEY,
-    annotation_id TEXT NOT NULL,
-    group_id TEXT NOT NULL,
+    annotation_id INTEGER NOT NULL,
+    group_id INTEGER NOT NULL,
     FOREIGN KEY (annotation_id) REFERENCES annotations(id) ON DELETE CASCADE,
     FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE
 );
 
 CREATE TABLE anno_column_links (
     id SERIAL PRIMARY KEY,
-    anno_entry_id TEXT NOT NULL,
+    anno_entry_id INTEGER NOT NULL,
     column_id INTEGER NOT NULL,
     value FLOAT DEFAULT NULL,
     FOREIGN KEY (anno_entry_id) REFERENCES anno_entries(id) ON DELETE CASCADE,
@@ -75,8 +75,8 @@ CREATE TABLE anno_column_links (
 
 CREATE TABLE anno_anno_links (
     id SERIAL PRIMARY KEY,
-    anno_entry_id TEXT NOT NULL,
-    annotation_id TEXT NOT NULL,
+    anno_entry_id INTEGER NOT NULL,
+    annotation_id INTEGER NOT NULL,
     FOREIGN KEY (anno_entry_id) REFERENCES anno_entries(id) ON DELETE CASCADE,
     FOREIGN KEY (annotation_id) REFERENCES annotations(id) ON DELETE CASCADE
 );

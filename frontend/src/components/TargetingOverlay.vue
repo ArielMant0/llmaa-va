@@ -14,7 +14,7 @@
     import { storeToRefs } from 'pinia';
     import { onBeforeUnmount, onMounted, watch } from 'vue';
     import { LLMCommand } from '@/use/commands';
-    import { AnnotationEntity, ColumnEntity, SelectionEntity } from '@/use/annotation/entity';
+    import { AnnotationEntryEntity, ColumnEntity, SelectionEntity } from '@/use/annotation/entity';
     import { useApp } from '@/stores/app';
 
     const app = useApp()
@@ -99,7 +99,7 @@
                     if (annoId) {
                         const anno = DM.getAnnotationById(annoId)
                         controls.targetEvent(
-                            anno.selections.map(s => new SelectionEntity(s.id, anno.label, s)),
+                            anno.selections.map(s => new SelectionEntity(s, anno.label)),
                             targetType,
                             anno
                         )
@@ -107,7 +107,7 @@
                         controls.targetEvent(
                             ids.map(tid => {
                                 const s = DM.getSelectionById(tid)
-                                return new SelectionEntity(tid, tid, s)
+                                return new SelectionEntity(s, tid)
                             }),
                             targetType
                         )
@@ -116,10 +116,10 @@
                 break
             case ACTION_TARGET.ANNOTATION:
                 {
-                    const annoId = element.getAttribute('data-target-anno')
-                    const anno = DM.getAnnotationById(annoId)
+                    const entry = DM.getAnnotationEntryById(targetId)
+                    const anno = entry._anno
                     controls.targetEvent(
-                        new AnnotationEntity(targetId, anno.label, anno),
+                        new AnnotationEntryEntity(entry, anno.label),
                         targetType,
                         anno
                     )
@@ -130,9 +130,9 @@
                 controls.targetEvent(element, targetType)
                 break
             case ACTION_TARGET.COLUMN:
-                const colId = DM.columnsRaw.find(d => d.name === targetId).id
+                const col = DM.columnsRaw.find(d => d.name === targetId)
                 controls.targetEvent(
-                    new ColumnEntity(colId, targetId, targetId),
+                    new ColumnEntity(col, targetId),
                     targetType
                 )
                 break

@@ -16,7 +16,7 @@ from app.utils import (
     delete_id_many
 )
 
-from pypika import Table, Tables, Query
+from pypika import Tables, Query
 
 
 def parse_column_entities(entities, entry_id):
@@ -27,7 +27,7 @@ def parse_column_entities(entities, entry_id):
         if e["type"] == "col":
             col_links.append({
                 "anno_entry_id": entry_id,
-                "column_id": e["data_id"],
+                "column_id": e["id"],
                 "value": e.get("value", None)
             })
     
@@ -42,17 +42,17 @@ def parse_anno_entities(entities, entry_id):
         if e["type"] == "anno":
             anno_links.append({
                 "anno_entry_id": entry_id,
-                "annotation_id": e["data_id"]
+                "annotation_id": e["id"]
             })
     
     return anno_links
 
 
-def exists(cur, id: str):
+def exists(cur, id: int):
     return get_anno_entry(cur, id) is not None
 
 
-def get_anno_entry(cur, id: str):
+def get_anno_entry(cur, id: int):
     entries, clinks, alinks = Tables(
         "anno_entries",
         "anno_column_links",
@@ -88,6 +88,25 @@ def get_anno_entries(cur, annotation=None):
     return fetchall(cur, Query.from_(entries).select("*").get_sql())
 
 
+def create_from_json(cur, data: dict):
+    eid = data.get("id", None)
+    if eid is None or not exists(cur, eid):
+        eid = add_anno_entry(cur, data, "id")
+
+        col_links = []
+        anno_links = []
+        
+        col_links = parse_column_entities(data["entities"], eid)
+        anno_links = parse_anno_entities(data["entities"], eid)
+
+        m_acl.add_anno_column_links(cur, col_links)
+        m_aal.add_anno_anno_links(cur, anno_links)
+
+        return eid
+    
+    return None
+
+
 def add_anno_entry(cur, data: dict, return_field: str = "id"):
     if "text" not in data:
         data["text"] = None
@@ -97,7 +116,7 @@ def add_anno_entry(cur, data: dict, return_field: str = "id"):
     value = insert_dict(
         cur,
         "anno_entries",
-        ["id", "annotation_id", "type", "source", "text", "data"],
+        ["annotation_id", "type", "source", "text", "data"],
         data,
         return_field
     )
@@ -126,7 +145,7 @@ def add_anno_entries(cur, data: list[dict]):
     insert_dict_many(
         cur,
         "anno_entries",
-        ["id", "annotation_id", "type", "source", "text", "data"],
+        ["annotation_id", "type", "source", "text", "data"],
         data
     )
 
@@ -144,6 +163,8 @@ def add_anno_entry_entities(cur, data: dict):
         
     col_links = parse_column_entities(data["entities"], eid)
     anno_links = parse_anno_entities(data["entities"], eid)
+    print("column links", col_links)
+    print("anno links", anno_links)
 
     m_acl.add_anno_column_links(cur, col_links)
     m_aal.add_anno_anno_links(cur, anno_links)
@@ -206,9 +227,9 @@ def update_anno_entry_entities(cur, data: dict):
     return cur
 
 
-def delete_anno_entry(cur, id: str):
+def delete_anno_entry(cur, id: int):
     return delete_id(cur, "anno_entries", id)
 
 
-def delete_anno_entries(cur, ids: list[str]):
+def delete_anno_entries(cur, ids: list[int]):
     return delete_id_many(cur, "anno_entries", ids)

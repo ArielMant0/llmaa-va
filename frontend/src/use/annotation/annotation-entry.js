@@ -1,6 +1,6 @@
+import DM from "../data-manager";
 import { compareEntityType, Entity } from "./entity";
-
-let _ENTRY_ID = 1;
+import { Modifier } from "./modifiers";
 
 export const ENTRY_SOURCE = Object.freeze({
     USER: 1,
@@ -16,9 +16,9 @@ export const ENTRY_TYPE = Object.freeze({
 
 export class AnnotationEntry {
 
-    constructor(annotation, type, src, entities=[]) {
+    constructor(annotation, type, src, entities=[], id=null) {
         this._anno = annotation
-        this.id = `${_ENTRY_ID++}_entry`
+        this.id = id
         this.type = type
         this.source = src
         this.entities = []
@@ -27,18 +27,34 @@ export class AnnotationEntry {
     }
 
     static fromJSON(json) {
-        // TODO: save which kind of entry we had
-        return new TextEntry(
-            json.annotation_id,
-            json.text,
-            ENTRY_SOURCE.AI, // TODO
-            json.entities.map(e => Entity.fromJSON(e))
-        )
+        const anno = DM.getAnnotationById(json.annotation_id)
+        switch(json.type) {
+            default:
+                return new TextEntry(
+                    anno,
+                    json.text,
+                    json.source,
+                    json.entities.map(e => Entity.fromJSON(e)),
+                    json.id
+                )
+            case ENTRY_TYPE.MODIFIER:
+                const modEntry = new ModifierEntry(
+                    anno,
+                    json.text,
+                    json.source,
+                    json.entities.map(e => Entity.fromJSON(e)),
+                    null,
+                    json.id
+                )
+                modEntry.setModifier(Modifier.fromJSON(modEntry, json.modifier))
+                return modEntry
+        }
     }
 
     toJSON() {
         return {
             id: this.id,
+            annotation_id: this._anno.id,
             type: this.type,
             source: this.source,
             time_updated: this.timeUpdated,
@@ -90,11 +106,9 @@ export class AnnotationEntry {
 
 export class TextEntry extends AnnotationEntry {
 
-    constructor(annotation, text, src, entities=[]) {
-        super(annotation, ENTRY_TYPE.TEXT, src)
+    constructor(annotation, text, src, entities=[], id=null) {
+        super(annotation, ENTRY_TYPE.TEXT, src, entities, id)
         this.text = text
-        this.addEntities(entities, false)
-        this.timeUpdated = Date.now()
     }
 
     toJSON() {
@@ -120,18 +134,16 @@ export class TextEntry extends AnnotationEntry {
 
 export class ModifierEntry extends AnnotationEntry {
 
-    constructor(annotation, text, src, entities=[], modifier=null) {
-        super(annotation, ENTRY_TYPE.MODIFIER, src)
+    constructor(annotation, text, src, entities=[], modifier=null, id=null) {
+        super(annotation, ENTRY_TYPE.MODIFIER, src, entities, id)
         this.text = text
         this.modifier = modifier
-        this.addEntities(entities, false)
-        this.timeUpdated = Date.now()
     }
 
     toJSON() {
         const json = super.toJSON()
         json.text = this.text
-        json.modifier = this.modifier
+        json.modifier = this.modifier.toJSON()
         return json
     }
 

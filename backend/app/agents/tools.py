@@ -49,8 +49,8 @@ def get_dataset_summary(dataset_id: int) -> dict:
     }
 
 
-def calc_stats(df: DataFrame, columns: list[dict]) -> dict:
-    result = {}
+def calc_stats(df: DataFrame, columns: list[dict]) -> list[dict]:
+    result = []
     for c in columns:
         
         name = c["name"]
@@ -59,6 +59,8 @@ def calc_stats(df: DataFrame, columns: list[dict]) -> dict:
             continue
 
         obj = {
+            "id": c["id"],
+            "name": name,
             "type": c["dtype"],
             "description": c["description"]
         }
@@ -72,16 +74,18 @@ def calc_stats(df: DataFrame, columns: list[dict]) -> dict:
             obj.update(stats.to_dict())
             del obj["count"]
 
-        result[name] = obj
+        result.append(obj)
 
     return result
 
 
 @tool  
-def get_desc_stats(dataset_id: int) -> dict:
+def get_desc_stats(dataset_id: int) -> list[dict]:
     """
-    Return descriptive statistics for the complete dataset.
+    Return descriptive statistics for all columns for the complete dataset.
     For numerical columns, this will return the following data:
+        - id: the column's id
+        - name: the column's name
         - type: the column's data type
         - description: the column's description
         - min: minimum value
@@ -93,6 +97,8 @@ def get_desc_stats(dataset_id: int) -> dict:
         - 50%: 50%-percentile
         - 75%: 75%-percentile
     For categorical columns, this will return the following data:
+        - id: the column's id
+        - name: the column's name
         - type: the column's data type
         - description: the column's description
         - value_counts: counts for all unique values
@@ -104,10 +110,12 @@ def get_desc_stats(dataset_id: int) -> dict:
 
 
 @tool  
-def get_desc_stats_group(group_id: str) -> dict:
+def get_desc_stats_group(group_id: int) -> list[dict]:
     """
-    Return descriptive statistics for the given group.
+    Return descriptive statistics for all columns for the given group.
     For numerical columns, this will return the following data:
+        - id: the column's id
+        - name: the column's name
         - type: the column's data type
         - description: the column's description
         - min: minimum value
@@ -119,6 +127,8 @@ def get_desc_stats_group(group_id: str) -> dict:
         - 50%: 50%-percentile
         - 75%: 75%-percentile
     For categorical columns, this will return the following data:
+        - id: the column's id
+        - name: the column's name
         - type: the column's data type
         - description: the column's description
         - value_counts: counts for all unique values
@@ -134,11 +144,28 @@ def get_desc_stats_group(group_id: str) -> dict:
 
 
 @tool  
-def get_desc_stats_ids(ids: list[int]) -> dict:
+def get_desc_stats_ids(ids: list[int]) -> list[dict]:
     """
-    Return descriptive statistics for the given set of data points:
-        - min, max, mean, standard deviation, median
-        - 25%-percentile, 50%-percentile, 75%-percentile.
+    Return descriptive statistics for all columns for the set of datapoints.
+    For numerical columns, this will return the following data:
+        - id: the column's id
+        - name: the column's name
+        - type: the column's data type
+        - description: the column's description
+        - min: minimum value
+        - max: maximum value
+        - mean: mean value
+        - std: standard deviation
+        - median: median value
+        - 25%: 25%-percentile
+        - 50%: 50%-percentile
+        - 75%: 75%-percentile
+    For categorical columns, this will return the following data:
+        - id: the column's id
+        - name: the column's name
+        - type: the column's data type
+        - description: the column's description
+        - value_counts: counts for all unique values
     """
     cur = db_ro.cursor()
     df = DataFrame(m_it.get_items_by_id(cur, ids))
@@ -192,7 +219,7 @@ def get_data_points(ids: list[int]) -> dict | None:
 
 
 @tool  
-def get_annotation(annotation_id: str) -> dict | None:
+def get_annotation(annotation_id: int) -> dict | None:
     """
     Return the annotation for a given annotation_id, if it exists
     """
@@ -203,7 +230,7 @@ def get_annotation(annotation_id: str) -> dict | None:
 
 
 @tool  
-def get_anno_entry(anno_entry_id: str) -> dict | None:
+def get_anno_entry(anno_entry_id: int) -> dict | None:
     """
     Return the annotation entry for a given anno_entry_id, if it exists
     """

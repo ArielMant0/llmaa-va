@@ -100,7 +100,12 @@ class DataManager {
         this.lensMaps = null
 
         this.annotations = []
-        this.globalAnno = new Annotation([], [], "Notes", "G")
+        if (this.globalAnno) {
+            this.globalAnno.clear(false)
+        } else {
+            this.globalAnno = new Annotation([], [], "Notes", "G")
+        }
+        this.syncAnnotation(this.globalAnno)
 
         this.annoMap = {}
     }
@@ -242,6 +247,10 @@ class DataManager {
 
     getSelectionById(id) {
         return this.selections.find(d => d.id === id)
+    }
+
+    getColumnById(id) {
+        return this.columnsRaw.find(d => d.id === id)
     }
     
     setColumns(rawColumns, columns, update=true) {
@@ -528,43 +537,76 @@ class DataManager {
         return anno
     }
 
-    async syncAnnotation(id) {
-        const anno = id === this.globalAnno.id ?
-            this.globalAnno :
-            this.getAnnotationById(id)
+    async sync() {
+        return Promise.all([this.syncSelections(), this.syncAnnotations()])
+    }
 
-        if (!anno) return
+    async syncAnnotation(anno) {
+        try {
+            const dstore = useData()
+            const json = anno.toJSON()
+            json.dataset_id = dstore.datasetId
+            json.group_id = anno.id
+            const res = await updateData("annotation", json)
+            if (res.id) anno.id = res.id
+            console.log("synched anno", anno.id)
+        } catch(e) {
+            console.error(e.toString())
+        }
 
+        return anno
+    }
+
+    async syncAnnotations() {
         const dstore = useData()
-        const json = anno.toJSON()
-        json.dataset_id = dstore.datasetId
-        json.group_id = anno.id
-        return updateData("annotation", json)
+        return Promise.all(this.annotations.map(async (anno) => {
+            const json = s.toJSON()
+            json.dataset_id = dstore.datasetId
+            json.group_id = anno.id
+            const res = await updateData("annotation", json)
+            if (res.id) anno.id = res.id
+            console.log("synched anno", anno.id)
+        }))
     }
 
     async syncAnnotationEntry(entry) {
-        const dstore = useData()
-        const json = entry.toJSON()
-        json.dataset_id = dstore.datasetId
-        return updateData("anno_entry", json)
+        try {
+            const dstore = useData()
+            const json = entry.toJSON()
+            json.dataset_id = dstore.datasetId
+            const res = await updateData("anno_entry", json)
+            if (res.id) entry.id = res.id
+            console.log("synched anno entry", entry.id)
+        } catch(e) {
+            console.error(e.toString())
+        }
+
+        return entry
     }
 
-    async syncSelection(id) {
-        const sel = this.getSelectionById(id)
-        if (!sel) return
-
-        const dstore = useData()
-        const json = sel.toJSON()
-        json.dataset_id = dstore.datasetId
-        return updateData("group", json)
+    async syncSelection(selection) {
+        try {
+            const dstore = useData()
+            const json = selection.toJSON()
+            json.dataset_id = dstore.datasetId
+            const res = await updateData("group", json)
+            if (res.id) selection.id = res.id
+            console.log("synched selection", selection.id)
+        } catch(e) {
+            console.error(e.toString())
+        }
+        
+        return selection
     }
 
     async syncSelections() {
         const dstore = useData()
-        return Promise.all(this.selections.map(s => {
+        return Promise.all(this.selections.map(async (s) => {
             const json = s.toJSON()
             json.dataset_id = dstore.datasetId
-            return updateData("group", json)
+            const res = await updateData("group", json)
+            if (res.id) s.id = res.id
+            console.log("synched selection", s.id)
         }))
     }
 
@@ -799,6 +841,16 @@ class DataManager {
     getAnnotationByLabel(label) {
         if (this.globalAnno.label === label) return this.globalAnno
         return this.annotations.find(d => d.label === label)
+    }
+
+    getAnnotationEntryById(id) {
+        const ge = this.globalAnno.getEntry(id)
+        if (ge) return ge
+        for (let i = 0; i < this.annotations.length; ++i) {
+            const ae = this.annotations[i].getEntry(id)
+            if (ae) return ae
+        }
+        return null
     }
 
     clearAnnotations() {

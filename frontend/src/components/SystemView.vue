@@ -623,13 +623,14 @@
 
             switch (target.type) {
                 case ACTION_TARGET.SELECTION:
+                    await DM.syncSelections()
                     // get selection/group ids
                     const ids = target.getSelectionIds()
                     if (ids.length === 0) {
                         toast.error("no entity to describe")
                         return
                     }
-                    await DM.syncSelections()
+                    console.log(target, ids)
                     // ask for description and label
                     const response = await llmDescribe(prompt, ids, "group")
                     const entities = parseEntities(response)
@@ -653,6 +654,7 @@
 
         const extractCommand = new LLMCommand(async function(prompt, target) {
             app.setLLMLoading(true)
+            await DM.syncSelections()
 
             // get selection/group ids
             const ids = target.getSelectionIds()
@@ -661,7 +663,6 @@
                 return
             }
 
-            await DM.syncSelections()
             const response = await llmExtract(prompt, ids, "group")
             const entities = parseEntities(response)
             DM.annotateText(
@@ -678,6 +679,8 @@
 
         const compareCommand = new LLMCommand(async function(prompt, targets) {
             app.setLLMLoading(true)
+            await DM.syncSelections()
+
             // get data for all involved selections
             const groups = targets.map(t => t.getSelectionIds())
 
@@ -686,7 +689,6 @@
                 return
             }
 
-            await DM.syncSelections()
             const response = await llmCompare(prompt, groups, "group")
             const entities = parseEntities(response)
             targets.forEach(t => {
@@ -712,7 +714,8 @@
         const combineCommand = new LLMCommand(async function(prompt, targets) {
             app.setLLMLoading(true)
             await DM.syncSelections()
-            const response = await llmCombine(prompt, targets.map(t => t.getDataIds()).flat())
+
+            const response = await llmCombine(prompt, targets.map(t => t.getIds()).flat())
             const entities = parseEntities(response)
             // TODO: add to a global notepad
             DM.annotateModifier(
@@ -729,9 +732,9 @@
         
         const refineCmd = new LLMCommand(async function(prompt, target) {
             app.setLLMLoading(true)
-            const entry = target.annotation.getEntry(target.getEntities().dataId)
-
             await DM.syncSelections()
+
+            const entry = target.annotation.getEntry(target.getEntities().id)
             const response = await llmFreeTargets(prompt, entry.id, "anno_entry")
             entry.setText(response.answer)
             app.setLLMLoading(false)
@@ -742,9 +745,9 @@
 
         const explainCmd = new LLMCommand(async function(prompt, target) {
             app.setLLMLoading(true)
-            const entry = target.annotation.getEntry(target.getEntities().dataId)
-
             await DM.syncSelections()
+
+            const entry = target.annotation.getEntry(target.getEntities().id)
             const response = await llmFreeTargets(prompt, entry.id, "anno_entry")
             const entities = parseEntities(response)
             DM.annotateText(

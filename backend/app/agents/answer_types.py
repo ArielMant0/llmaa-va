@@ -75,8 +75,8 @@ class EDAAnswer(CustomBaseModel):
     columns: List[int] = Field([], description="A list of column IDs relevant for the answer")
     columns_weights: Dict = Field({}, description="Weights for columns by id, if necessary")
 
-    groups: List[str] = Field([], description="A list of group IDs relevant for the answer")
-    annotations: List[str] = Field([], description="A list of annotation IDs relevant for the answer")
+    groups: List[int] = Field([], description="A list of group IDs relevant for the answer")
+    annotations: List[int] = Field([], description="A list of annotation IDs relevant for the answer")
 
     evidence: List[str] = Field([], description="Additional supporting evidence")
 

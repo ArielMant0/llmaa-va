@@ -4,12 +4,11 @@ import { ENTITY_TYPE } from "./entity"
 import { Selection, SELECTION_TYPE } from "../selection/selection"
 import { AnnotationEntry } from "./annotation-entry"
 
-let _ANNO_ID = 1
 
 export default class Annotation {
 
     constructor(data, selections=[], title="Annotation", label="A1", id=null) {
-        this.id = id ? id : `${_ANNO_ID++}_anno`
+        this.id = id
         this.title = title
         this.label = label
         this.data = new Set(data)
@@ -29,7 +28,8 @@ export default class Annotation {
             selections,
             json.title,
             json.label,
-            json.id,
+            null,
+            json.id
         )
         anno.timeCreated = Date.parse(json.timeCreated).valueOf()
         anno.timeUpdated = Date.parse(json.timeUpdated).valueOf()
@@ -39,15 +39,16 @@ export default class Annotation {
 
     toJSON() {
         return {
-            "id": this.id,
-            "author": "User",
-            "title": this.title,
-            "label": this.label,
-            "time_created": this.timeCreated,
-            "time_updated": this.timeUpdated,
-            "group": new Selection(
+            id: this.id,
+            author: "User",
+            title: this.title,
+            label: this.label,
+            time_created: this.timeCreated,
+            time_updated: this.timeUpdated,
+            group: new Selection(
                 this.data,
                 SELECTION_TYPE.BASE,
+                null,
                 this.id
             ).toJSON(),
             "entries": this.entries.map(e => e.toJSON())
@@ -80,6 +81,15 @@ export default class Annotation {
 
     get hasSelection() {
         return this.selections.length > 0
+    }
+
+    clear(update=true) {
+        this.data.clear()
+        this.selections = []
+        this.entries = []
+        this.timeCreated = Date.now()
+        this.timeUpdated = this.timeCreated
+        if (update) this.update()
     }
 
     hasDataOverlap(otherIds) {
@@ -148,6 +158,10 @@ export default class Annotation {
         }
     }
 
+    hasEntry(id) {
+        return this.getEntry(id) !== undefined
+    }
+
     getEntry(id) {
         return this.entries.find(d => d.id === id)
     }
@@ -157,7 +171,7 @@ export default class Annotation {
      * @param {Entry} entry 
      */
     addEntry(entry, update=true) {
-        if (!this.entries.find(d => d.id === entry.id)) {
+        if (!this.hasEntry(entry.id)) {
             this.entries.push(entry)
             DM.onAddEntry(entry)
             if (update) this.update()

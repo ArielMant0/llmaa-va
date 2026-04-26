@@ -35,12 +35,8 @@ export class TargetData {
         return this.multiple ? this.entities : this.entities.at(0)
     }
 
-    getData() {
-        return this.entities.map(d => d.data)
-    }
-
-    getDataIds() {
-        return this.entities.map(d => d.dataId)
+    getIds() {
+        return this.entities.map(d => d.id)
     }
 
     getSelection() {
@@ -60,8 +56,8 @@ export class TargetData {
         switch (this.type) {
             case ACTION_TARGET.SELECTION:
                 return this.multiple ?
-                    this.entities.map(d => d.dataId) :
-                    [this.entities.at(0).dataId]
+                    this.entities.map(d => d.id) :
+                    [this.entities.at(0).id]
             case ACTION_TARGET.ANNOTATION:
                 return this.annotation.selections.map(d => d.id)
             default:

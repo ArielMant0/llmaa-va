@@ -26,7 +26,7 @@ llm = ChatOpenAI(
 # - Prefer aggregations for analysis.
 
 sys_prompt = """
-You are an assistant for exploratory data analysis for the dataset identified by the following id: {dataset_id}
+You are an assistant for exploratory data analysis of tabular data for the dataset identified by the following id: {dataset_id}
 
 Use tools if necessary to answers the user's question about the data and other entities like annotations.
 All relevant data is stored in a PostgreSQL database which can be accessed with provided tools.

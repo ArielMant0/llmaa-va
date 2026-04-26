@@ -17,20 +17,20 @@ from app.utils import (
 from pypika import Table, Tables, Query
 
 def create_from_json(cur, data: dict):
-    aid = data["id"]
+    aid = data.get("id", None)
     group = data.get("group", None)
 
-    if not exists(cur, aid):
-        add_annotation(cur, data, "id")
+    if aid is None or not exists(cur, aid):
 
+        aid = add_annotation(cur, data, "id")
 
         if group is not None:
             
-            gid = group["id"]
+            gid = group.get("id", None)
             group["dataset_id"] = data["dataset_id"]
 
-            if not m_gr.exists(cur, gid):
-                m_gr.add_group(cur, group)
+            if gid is None or not m_gr.exists(cur, gid):
+                gid = m_gr.add_group(cur, group)
                 m_gm.add_group_members(
                     cur,
                     [{ "group_id": gid, "item_id": d } for d in group["ids"]]
@@ -47,29 +47,24 @@ def create_from_json(cur, data: dict):
             entry["annotation_id"] = aid
             m_ae.add_anno_entry(cur, entry)
 
-        return True
+        return aid
     
-    return False
+    return None
 
 
 def update_from_json(cur, data: dict):
-    aid = data["id"]
+    aid = data.get("id", None)
     group = data.get("group", None)
 
-    print()
-    print("update anno from json")
-    print(data)
-    print()
-
-    if exists(cur, aid):
+    if aid is not None and exists(cur, aid):
 
         if group is not None:
             
-            gid = group["id"]
+            gid = group.get("id", None)
             group["dataset_id"] = data["dataset_id"]
 
-            if not m_gr.exists(cur, gid):
-                m_gr.add_group(cur, group)
+            if gid is None or not m_gr.exists(cur, gid):
+                gid = m_gr.add_group(cur, group)
                 m_gm.add_group_members(
                     cur,
                     [{ "group_id": gid, "item_id": d } for d in group["ids"]]
@@ -102,7 +97,8 @@ def update_from_json(cur, data: dict):
 
 def exists(cur, id: int):
     annos = Table("annotations")
-    return Query.from_(annos).select("id").where(annos.id == id) is not None
+    q = Query.from_(annos).select("id").where(annos.id == id)
+    return fetchone(cur, q.get_sql()) is not None
 
 
 def get_annotation(cur, id):
@@ -152,7 +148,7 @@ def add_annotation(cur, data: dict, return_field: str = "id"):
     return insert_dict(
         cur,
         "annotations",
-        ["id", "dataset_id", "author", "title"],
+        ["dataset_id", "author", "title"],
         data,
         return_field
     )
@@ -162,15 +158,15 @@ def add_annotations(cur, data: list[dict]):
     return insert_dict_many(
         cur,
         "annotations",
-        ["id", "dataset_id", "author", "title"],
+        ["dataset_id", "author", "title"],
         data,
     )
 
-def delete_annotation(cur, id: str):
+def delete_annotation(cur, id: int):
     return delete_id(cur, "annotations", id)
 
 
-def delete_annotations(cur, ids: list[str]):
+def delete_annotations(cur, ids: list[int]):
     return delete_id_many(cur, "annotations", ids)
 
 
