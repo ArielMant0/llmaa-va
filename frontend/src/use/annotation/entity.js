@@ -1,7 +1,7 @@
-import DM from "../data-manager"
+import { useAnnotations } from "../use-annotations"
+import { useDatabase } from "../use-database"
+import { useSelections } from "../use-selections"
 import { ACTION_TARGET } from "./action-target"
-
-let _EID = 1
 
 export const ENTITY_TYPE = Object.freeze({
     DATAPOINT: "dp",
@@ -38,18 +38,21 @@ export class Entity {
     }
 
     static fromJSON(json) {
+        const sels = useSelections()
+        const db = useDatabase()
+        const anno = useAnnotations()
         switch (json.type) {
             case ENTITY_TYPE.SELECTION:
-                const selection = DM.getSelectionById(json.id)
+                const selection = sels.get(json.id)
                 return new SelectionEntity(selection, json.name)
             case ENTITY_TYPE.COLUMN:
-                const column = DM.getColumnById(json.id)
+                const column = db.getColumn(json.id)
                 return new ColumnEntity(column, json.name, json.value)
             case ENTITY_TYPE.ANNOTATION:
-                const entry = DM.getAnnotationEntryById(json.id)
+                const entry = anno.getEntry(json.id)
                 return new AnnotationEntryEntity(entry, json.name)
             case ENTITY_TYPE.DATAPOINT:
-                const dp = DM.getDataBy(d => d.id === json.id).at(0)
+                const dp = db.get(json.id)
                 return new DatapointEntity(dp, json.values)
         }
     }

@@ -40,12 +40,13 @@
 
 <script setup>
     import { useData } from '@/stores/data'
-    import DM from '@/use/data-manager'
+    import { useDatabase } from '@/use/use-database'
     import { storeToRefs } from 'pinia'
     import { computed, onMounted, watch } from 'vue'
 
     const model = defineModel()
 
+    const db = useDatabase()
     const dstore = useData()
     const { datasetId } = storeToRefs(dstore)
 
@@ -70,7 +71,7 @@
         search.value = ""
     }
     function read() {
-        const array = DM.columns.slice()
+        const array = db.columns.value.slice()
         array.sort()
         columns.value = array
     }

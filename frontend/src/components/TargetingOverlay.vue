@@ -8,21 +8,28 @@
 
 <script setup>
     import * as d3 from 'd3'
-    import DM from '@/use/data-manager';
-    import { useControls } from '@/stores/controls';
     import { ACTION_TARGET } from '@/use/annotation/action-target';
     import { storeToRefs } from 'pinia';
     import { onBeforeUnmount, onMounted, watch } from 'vue';
     import { LLMCommand } from '@/use/commands';
     import { AnnotationEntryEntity, ColumnEntity, SelectionEntity } from '@/use/annotation/entity';
     import { useApp } from '@/stores/app';
+    import { useAnnotations } from '@/use/use-annotations';
+    import { useDatabase } from '@/use/use-database';
+    import { useSelections } from '@/use/use-selections';
+    import { useTargets } from '@/use/use-targets';
 
     const app = useApp()
     const { showTargetOverlay } = storeToRefs(app)
-    
-    const controls = useControls()
-    const { canTarget, activeMappingId } = storeToRefs(controls)
-    
+
+    const {
+        canTarget,
+        activeMappingId,
+        activeMapping,
+        add,
+        cancel
+    } = useTargets()
+
     const props = defineProps({
         color: { type: String, default: "magenta" },
         offset: { type: Number, default: 5 },
@@ -67,7 +74,7 @@
 
     function hide() {
         if (!showTargetOverlay.value) return
-        controls.cancelActive()
+        cancel()
         showTargetOverlay.value = false
         reset()
     }
@@ -91,24 +98,25 @@
 
         if (!targetType || !targetId) return
 
+        const annos = useAnnotations()
+        const db = useDatabase()
+        const sels = useSelections()
+
         switch (targetType) {
             case ACTION_TARGET.SELECTION:
                 {
                     const annoId = element.getAttribute('data-target-anno')
                     // this is actually a selection in an annotation
                     if (annoId) {
-                        const anno = DM.getAnnotationById(annoId)
-                        controls.targetEvent(
+                        const anno = annos.get(annoId)
+                        add(
                             anno.selections.map(s => new SelectionEntity(s, anno.label)),
                             targetType,
                             anno
                         )
                     } else {
-                        controls.targetEvent(
-                            ids.map(tid => {
-                                const s = DM.getSelectionById(tid)
-                                return new SelectionEntity(s, tid)
-                            }),
+                        add(
+                            ids.map(tid => new SelectionEntity(sels.get(tid), tid)),
                             targetType
                         )
                     }
@@ -116,9 +124,9 @@
                 break
             case ACTION_TARGET.ANNOTATION:
                 {
-                    const entry = DM.getAnnotationEntryById(targetId)
+                    const entry = annos.getEntry(targetId)
                     const anno = entry._anno
-                    controls.targetEvent(
+                    add(
                         new AnnotationEntryEntity(entry, anno.label),
                         targetType,
                         anno
@@ -127,11 +135,11 @@
                 break
             case ACTION_TARGET.VIS:
                 // TODO: what should happen here?
-                controls.targetEvent(element, targetType)
+                add(element, targetType)
                 break
             case ACTION_TARGET.COLUMN:
-                const col = DM.columnsRaw.find(d => d.name === targetId)
-                controls.targetEvent(
+                const col = db.rawColumns.value.find(d => d.name === targetId)
+                add(
                     new ColumnEntity(col, targetId),
                     targetType
                 )
@@ -142,7 +150,7 @@
     function makeHighlights() {
         if (!showTargetOverlay.value) return;
 
-        const cmd = controls.activeMapping.command
+        const cmd = activeMapping.value.command
         if (!(cmd instanceof LLMCommand)) return
 
         // get selectors of available targets for the currently active mapping

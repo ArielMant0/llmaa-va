@@ -13,7 +13,7 @@
                     size="sm"
                     icon="mdi-delete"
                     density="compact"
-                    @click="DM.removeAnnotation(anno.id)"/>
+                    @click="annots.remove(anno.id)"/>
             </div>
 
             <div>
@@ -70,7 +70,7 @@
                     size="sm"
                     icon="mdi-delete"
                     density="compact"
-                    @click="DM.removeAnnotation(anno.id)"/>
+                    @click="annots.remove(anno.id)"/>
             </div>
 
             <div>
@@ -86,7 +86,6 @@
 
 <script setup>
     import Annotation from '@/use/annotation/annotation';
-    import DM from '@/use/data-manager';
     import AnnotationEntryPanel from './AnnotationEntryPanel.vue';
     import { computed } from 'vue';
     import { ACTION_TARGET } from '@/use/annotation/action-target';
@@ -94,6 +93,7 @@
     import MiniColorPicker from '../MiniColorPicker.vue';
     import TextNote from './TextNote.vue';
     import { useAnno } from '@/stores/anno';
+    import { useAnnotations } from '@/use/use-annotations';
 
     const props = defineProps({
         data: {
@@ -139,13 +139,14 @@
     })
 
     const annoStore = useAnno()
+    const annots = useAnnotations()
 
     const minh = computed(() => props.minHeight + (typeof props.minHeight === "string" ? "" : "px"))
     const maxh = computed(() => props.maxHeight + (typeof props.maxHeight === "string" ? "" : "px"))
     const w = computed(() => props.width + (typeof props.width === "string" ? "" : "px"))
     const showCompact = computed(() => props.maxEntryLength > 0 && props.maxEntryLength <= 200)
 
-    const anno = computed(() => props.data ? props.data : DM.getAnnotationById(props.id))
+    const anno = computed(() => props.data ? props.data : annots.get(props.id))
     const numEntries = computed(() => {
         if (typeof props.maxHeight === "string") {
             return anno.value.entries.length

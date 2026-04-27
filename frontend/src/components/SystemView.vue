@@ -55,13 +55,13 @@
                             style="display: block;"
                             class="mt-5"
                             :scale="featureScale"/>
-                        
+
                         <div v-else style="width: 200px; text-align: center;" class="mt-5">
                             <v-progress-circular indeterminate size="30"></v-progress-circular>
                         </div>
                     </div>
                 </div>
-                
+
                 <div style="position: relative;">
                     <FeatureMap
                         :column="chosenColorAttr"
@@ -97,7 +97,7 @@
             <div class="ml-4" style="min-width: 525px; max-width: 525px;">
 
                 <ActiveAnnotationView style="min-height: 30vh; max-height: 30vh; overflow-y: auto;"/>
-                
+
                 <div class="d-flex justify-center mt-4">
                     <LLMChatPanel v-if="app.useChat" max-height="30vh"/>
                 </div>
@@ -165,7 +165,7 @@
     import { toast } from 'vue3-toastify';
     import DataHistograms from './DataHistograms.vue';
     import ActiveAnnotationView from './annotation/ActiveAnnotationView.vue';
-    import { AnnotationEntity } from '@/use/annotation/entity';
+    import { AnnotationEntryEntity } from '@/use/annotation/entity';
     import { ENTRY_SOURCE } from '@/use/annotation/annotation-entry';
     import { ACTION_TARGET } from '@/use/annotation/action-target';
     import { Command, LLMCommand } from '@/use/commands';
@@ -693,7 +693,7 @@
             const entities = parseEntities(response)
             targets.forEach(t => {
                 if (t.annotation) {
-                    entities.push(new AnnotationEntity(
+                    entities.push(new AnnotationEntryEntity(
                         t.annotation.id,
                         t.annotation.label,
                         t.annotation
@@ -729,7 +729,7 @@
         }, COMBINE_PROMPT, 2, Infinity, [ACTION_TARGET.COLUMN])
         CM.addKeyMapping(8, "5", "combine", combineCommand)
 
-        
+
         const refineCmd = new LLMCommand(async function(prompt, target) {
             app.setLLMLoading(true)
             await DM.syncSelections()

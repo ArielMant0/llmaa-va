@@ -57,7 +57,7 @@ export function useAnnotations() {
 
     function createEmpty(label="A1", selections=null) {
         const useSel = useSelections()
-        
+
         let ids = new Set()
         let activeSels;
 
@@ -115,7 +115,7 @@ export function useAnnotations() {
             selections
         ))
     }
-    
+
     function annotateText(text, src, entities=[], options=DEFAULT_ANNO_OPTIONS) {
         const target = createFromOptions(options)
         if (target) {
@@ -174,9 +174,33 @@ export function useAnnotations() {
         }
     }
 
+    function getEntry(id) {
+        const ge = globalAnno.getEntry(id)
+        if (ge) return ge
+        for (let i = 0; i < annotations.value.length; ++i) {
+            const ae = annotations.value[i].getEntry(id)
+            if (ae) return ae
+        }
+        return null
+    }
+
+    function removeEntry(id) {
+        if (globalAnno.hasEntry(id)) {
+            globalAnno.removeEntry(id)
+            return true
+        } else {
+            const anno = annotations.value.find(d => d.hasEntry(id))
+            if (anno) {
+                anno.removeEntry(id)
+                return true
+            }
+        }
+        return false
+    }
+
     /**
      * Actions to execute (globally) when an entry is added
-     * @param {Entry} entry 
+     * @param {Entry} entry
      */
     function onAddEntry(entry) {
         if (entry.type === ENTRY_TYPE.MODIFIER) {
@@ -187,7 +211,7 @@ export function useAnnotations() {
             const app = useApp()
             app.setColorOverride(modifier.type)
             app.scales[MODIFIER_TYPE.COLOR_FUNCTION] = modifier.colormap
-            
+
             // TODO: update feature column
             // this.columnUpdate(modifier.type, 10, function() {
             //     const now = Date.now()
@@ -196,10 +220,10 @@ export function useAnnotations() {
             // })
         }
     }
-    
+
     /**
      * Actions to execute (globally) when an entry is removed
-     * @param {Entry} entry 
+     * @param {Entry} entry
      */
     function onRemoveEntry(entry) {
         if (entry.type === ENTRY_TYPE.MODIFIER) {
@@ -209,7 +233,7 @@ export function useAnnotations() {
 
             const app = useApp()
             app.setColorOverride("")
-            
+
             // TODO: update feature column
             // this.columnUpdate(modifier.type, 10, function() {
             //     const now = Date.now()
@@ -260,7 +284,9 @@ export function useAnnotations() {
         set,
         get,
         has,
-        
+        getMatching,
+
+
         createEmpty,
         createFromOptions,
         annotateEmpty,
@@ -269,6 +295,8 @@ export function useAnnotations() {
 
         onAddEntry,
         onRemoveEntry,
+        getEntry,
+        removeEntry,
 
         sync,
         update

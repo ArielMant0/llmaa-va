@@ -1,4 +1,5 @@
 import DM from "../data-manager";
+import { useAnnotations } from "../use-annotations";
 import { compareEntityType, Entity } from "./entity";
 import { Modifier } from "./modifiers";
 
@@ -27,7 +28,8 @@ export class AnnotationEntry {
     }
 
     static fromJSON(json) {
-        const anno = DM.getAnnotationById(json.annotation_id)
+        const annos = useAnnotations()
+        const anno = annos.get(json.annotation_id)
         switch(json.type) {
             default:
                 return new TextEntry(
@@ -70,7 +72,7 @@ export class AnnotationEntry {
     hasEntity(type, id) {
         return this.entities.some(d => d.type === type && d.id === id)
     }
-    
+
     addEntities(entities, update=true) {
         const before = this.entities.length
         const tmp = this.entities.concat(entities)

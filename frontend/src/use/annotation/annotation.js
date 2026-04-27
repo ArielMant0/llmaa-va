@@ -3,6 +3,8 @@ import DM from "../data-manager"
 import { ENTITY_TYPE } from "./entity"
 import { Selection, SELECTION_TYPE } from "../selection/selection"
 import { AnnotationEntry } from "./annotation-entry"
+import { useDatabase } from "../use-database"
+import { useAnnotations } from "../use-annotations"
 
 
 export default class Annotation {
@@ -104,13 +106,13 @@ export default class Annotation {
         time = time ? time : Date.now()
         if (time > this.timeUpdated) {
             this.timeUpdated = time
-            DM.trigger("anno")
         }
     }
 
     getData() {
         if (this.data.size === 0) return []
-        return DM.getDataBy(d => this.data.has(d.id))
+        const db = useDatabase()
+        return db.getBy(d => this.data.has(d.id))
     }
 
     getTitle() {
@@ -132,8 +134,8 @@ export default class Annotation {
 
     /**
      * Add a new selection to this annotation
-     * @param {Selection} selection 
-     * @param {Boolean} update 
+     * @param {Selection} selection
+     * @param {Boolean} update
      */
     addSelection(selection, update=true) {
         // add selection noly if it does not yet exist
@@ -146,8 +148,8 @@ export default class Annotation {
 
     /**
      * Remove the selection with the given id
-     * @param {String} id 
-     * @param {Boolean} update 
+     * @param {String} id
+     * @param {Boolean} update
      */
     removeSelection(id, update=true) {
         const idx = this.selections.findIndex(d => d.id === id)
@@ -168,26 +170,28 @@ export default class Annotation {
 
     /**
      * Add a new entry to this annotation
-     * @param {Entry} entry 
+     * @param {Entry} entry
      */
     addEntry(entry, update=true) {
         if (!this.hasEntry(entry.id)) {
             this.entries.push(entry)
-            DM.onAddEntry(entry)
+            const annos = useAnnotations()
+            annos.onAddEntry(entry)
             if (update) this.update()
         }
     }
 
     /**
      * Remove the entry with the given id, if it exists
-     * @param {String} id 
-     * @param {Boolean} update 
+     * @param {String} id
+     * @param {Boolean} update
      */
     removeEntry(id, update=true) {
         const idx = this.entries.findIndex(d => d.id === id)
         if (idx >= 0) {
             const [entry] = this.entries.splice(idx, 1)
-            DM.onRemoveEntry(entry)
+            const annos = useAnnotations()
+            annos.onRemoveEntry(entry)
             if (update) this.update()
         }
     }

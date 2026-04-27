@@ -1,6 +1,7 @@
 import { DATA_TYPES } from "@/stores/data"
 import { dataToNumbers, getAttr } from "./util"
 import { bin, deviation, extent, group, mean, median, min, quadtree, scaleLinear } from "d3"
+import { reactive } from "vue"
 
 function calcStats(data, c, filterType) {
     const ord = filterType === DATA_TYPES.ORDINAL ||
@@ -55,17 +56,21 @@ export function useDatabase() {
     const columns = ref([])
     const rawColumns = ref([])
 
-    const xAttr = ref("")
-    const yAttr = ref("")
-
     const width = ref(1)
     const height = ref(1)
 
-    const scales = {
-        x: null,
-        y: null
-    }
+    const attrs = reactive({
+        x: "x",
+        y: "y"
+    })
 
+    const scales = reactive({
+        x: null,
+        y: null,
+        colors: {}
+    })
+
+    // non-reactive data
     let data = []
     let tree = null
 
@@ -81,6 +86,10 @@ export function useDatabase() {
         return data.filter(callback)
     }
 
+    function getColumn(id) {
+        return rawColumns.value.find(d => d.id === id)
+    }
+
     function setColumns(cols, raw, update=true) {
         rawColumns.value = raw
         columns.value = cols.map(d => d.name)
@@ -90,8 +99,8 @@ export function useDatabase() {
 
     function setData(list, x="x", y="y", update=true) {
         data = list
-        xAttr.value = x
-        yAttr.value = y
+        attrs.x = x
+        attrs.y = y
 
         stats = {}
         if (columns.value) {
@@ -110,18 +119,18 @@ export function useDatabase() {
 
             // scales for quadtree
             scales.x = scaleLinear()
-                .domain(extent(this.data, d => getAttr(d, xAttr.value)))
+                .domain(extent(this.data, d => getAttr(d, attrs.x)))
                 .range([5, width-5])
             scales.y = scaleLinear()
-                .domain(extent(this.data, d => getAttr(d, yAttr.value)))
+                .domain(extent(this.data, d => getAttr(d, attrs.y)))
                 .range([height-5, 5])
-            
+
             // calculate quadtree
             tree = quadtree()
-                .x(d => scales.x(getAttr(d, xAttr.value)))
-                .y(d => scales.y(getAttr(d, yAttr.value)))
+                .x(d => scales.x(getAttr(d, attrs.x)))
+                .y(d => scales.y(getAttr(d, attrs.y)))
                 .addAll(data)
-            
+
             if (update) update()
         }
     }
@@ -131,25 +140,24 @@ export function useDatabase() {
     }
 
     return {
-        dataTime,
-
-        // not reactive
-        data,
-        tree,
-        stats,
-        scales,
-
         // reactive
-        xAttr,
-        yAttr,
+        dataTime,
+        scales,
+        attrs,
         columns,
         rawColumns,
         types,
         width,
         height,
 
+        // not reactive
+        data,
+        tree,
+        stats,
+
         get,
         getBy,
+        getColumn,
         setColumns,
         setData,
         setSize,

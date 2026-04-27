@@ -30,7 +30,7 @@
 
                 <TextNote v-if="annos.length === 0" class="mt-2 mr-1 ml-1"/>
             </v-tabs-window-item>
-            
+
             <v-tabs-window-item value="global">
                 <AnnotationPanel v-if="global"
                     :key="global.id+'_'+global.timeUpdated"
@@ -38,15 +38,15 @@
                     width="100%"
                     />
             </v-tabs-window-item>
-            
-            
+
+
             <div v-if="llmLoading" class=" mt-4 d-flex align-center justify-center">
                 <v-progress-circular size="32" indeterminate></v-progress-circular>
             </div>
 
         </v-tabs-window>
 
- 
+
 
 
     </v-sheet>
@@ -55,10 +55,10 @@
 <script setup>
     import { useApp } from '@/stores/app';
     import { storeToRefs } from 'pinia';
-    import DM from '@/use/data-manager';
     import { computed, onMounted, ref, watch } from 'vue';
     import AnnotationPanel from './AnnotationPanel.vue';
     import TextNote from './TextNote.vue';
+    import { useAnnotations } from '@/use/use-annotations';
 
     const app = useApp()
     const { lensTime, annoTime, llmLoading, numSelections } = storeToRefs(app)
@@ -78,8 +78,9 @@
 
     // read current annotations
     function readAnnotations() {
+        const annots = useAnnotations()
         const before = new Set(annos.value.map(d => d.id))
-        const tmp = DM.getMatchingAnnotations()
+        const tmp = annots.getMatching()
         if (tmp) {
             const after = new Set(tmp.map(d => d.id))
             if (before.size !== after.size || before.union(after).size !== before.size) {
@@ -92,7 +93,7 @@
         }
 
         if (!global.value) {
-            global.value = DM.globalAnno
+            global.value = annots.globalAnno
             lastGlobalUpdate.value = Date.now()
         }
 

@@ -31,8 +31,8 @@
 
 <script setup>
     import { color } from 'd3';
-    import DM from '@/use/data-manager';
     import { onMounted, reactive, watch } from 'vue';
+    import { useDatabase } from '@/use/use-database';
 
     const props = defineProps({
         anno: {
@@ -61,6 +61,8 @@
         }
     })
 
+    const db = useDatabase()
+
     const scales = reactive({
         xAttr: "x",
         yAttr: "y",
@@ -72,18 +74,18 @@
     const points = ref([])
 
     function readColor() {
-        scales.color = DM.scales[props.column]
+        scales.color = db.scales.colors[props.column]
     }
 
     function read() {
         readColor()
-        scales.xAttr = DM.xAttr
-        scales.yAttr = DM.yAttr
-        scales.x = DM.x.copy().domain(DM.x.domain()).range([5, props.size-5])
-        scales.y = DM.y.copy().domain(DM.y.domain()).range([props.size-5, 5])
+        scales.xAttr = db.attrs.x
+        scales.yAttr = db.attrs.x
+        scales.x = db.scales.x.copy().range([5, props.size-5])
+        scales.y = db.scales.y.copy().range([props.size-5, 5])
 
         const ids = new Set(props.anno.ids)
-        points.value = DM.data.filter(d => ids.has(d.id))
+        points.value = db.data.filter(d => ids.has(d.id))
     }
 
     onMounted(read)
